@@ -1,0 +1,32 @@
+"use strict"
+
+var ServiceRegistry = require('dw/svc/ServiceRegistry');
+var SFTPClient = require('dw/net/SFTPClient');
+var KeyRef = require('dw/crypto/KeyRef');
+
+/**
+ * @description Please, use "Generic" service type in the BM.
+ */
+
+ServiceRegistry.configure("bm_returnly.sftp.auth", {
+    parseResponse: function(svc, result) {
+        return result;
+    },
+
+    /**
+     * @description Required function
+     * @param svc {GenericService}
+     * @param options {Array}
+     * @returns {SFTPClient}
+     */
+    
+    execute: function (svc, options) {
+        var client = new SFTPClient();
+
+        client.setTimeout(5000);
+        client.setIdentity(new KeyRef('returnly'));
+        client.connect('sftp.returnly.com', 22, options[0].username, '');
+
+        return client;
+    }
+});

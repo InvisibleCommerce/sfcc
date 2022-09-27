@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<extensions xmlns="http://www.demandware.com/xml/bmmodules/2007-12-11" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.demandware.com/xml/bmmodules/2007-12-11 bmext.xsd">
+    <menuaction	id="customsubmenu_id04" menupath="site-prefs" position="100" site="true">
+      <name xml:lang="x-default">Returnly</name>
+      <short_description xml:lang="x-default">Better Product Returns</short_description>
+      <description xml:lang="x-default">Better Product Returns</description>
+      <exec pipeline="Returnly" node="Show"/>
+      <sub-pipelines>
+         <pipeline name="Returnly-Show" /> 
+         <pipeline name="Returnly-HandleForm" />
+      </sub-pipelines>
+      <parameters>
+         <parameter name="menuname" value="Returnly"/>
+         <parameter name="mainmenuname" value="Returnly Module"/>
+      </parameters>
+      <icon>icons/returnly_logo.gif</icon>
+    </menuaction>
+</extensions>

@@ -1,0 +1,17 @@
+'use strict';
+
+/**
+ * This custom error class is using for returning error messages to Returnly side
+ *
+ */
+
+var ReturnlyError = function(msg){
+	this.toJSON = function(){
+		return {
+			'error':msg
+		}
+	}
+};
+ReturnlyError.prototype = new Error();
+
+module.exports = ReturnlyError;

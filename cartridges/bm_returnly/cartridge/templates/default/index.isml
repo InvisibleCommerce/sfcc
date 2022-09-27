@@ -1,0 +1,264 @@
+<isdecorate template="application/MenuFrame">
+    <iscontent type="text/html" charset="UTF-8" />
+    <isinclude template="inc/Modules"/>
+    <isset name="instanceType" value="${require('dw/system/System').instanceType === 2 ? 'live' : 'test'}" scope="page"/>
+    <isset name="dashboardURL" value="${instanceType === 2 ? 'https://dashboard.returnly.com' : 'https://dashboard.dev.return.ly'}" scope="page"/>
+    <isset name="prefs"  value="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'site-prefs')}" scope="PAGE" />
+    <ISBreadcrumb name1="Site Preferences" url1="${prefs}" name2="Returnly" />
+    <style>
+        .form {
+            width: 45%;
+            margin: 0 auto;
+        }
+        .form td {
+            padding: 0 20px 20px 30px;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .form h1 {
+            margin-top: 31px;
+            margin-bottom: 0;
+        }
+        .form input {
+            display: block;
+            width: 96%;
+            height: 34px;
+            padding: 6px 12px !important;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            margin: 5px 0 10px 0 !important;
+        }
+        .button {
+            background-color: #5cb85c !important;
+            border-radius: 20px !important;
+            color: white !important;
+            padding:8px 11px !important;
+            font-size:16px;
+        }
+        .subheader {
+            font-size: 16px;
+            color:#333;
+            margin-bottom: 0;
+        }
+        .hint {
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            color: #737373;
+        }
+        .label {
+            display: inline-block;
+            max-width: 100%;
+            font-weight: bold;
+            color:#333;
+            font-size: 14px;
+        }
+        .required {
+            color:red;
+        }
+        .error-bar, .success-bar {
+            width: 45%;
+            margin: 0 auto 20px auto;
+            padding: 10px;
+            text-align: center;
+            box-sizing: border-box;
+            color: white;
+            font-size: 16px;
+            /*font-weight: bold;*/
+        }
+        .error-bar {
+            background-color: #ff4a4e;
+        }
+        .success-bar {
+            background-color: #5cb85c;
+        }
+        .l { background-color: #DEDEDE }
+        .r { background-color: #EEEEEE }
+    </style>
+    <!-- EO Page Navigator -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+            <td class="table_title aldi" width="83%" nowrap="nowrap">
+                Returnly
+                <a href="javascript:;" onclick="openOnlineHelpPopup('https://returnly.com/salesforce')" class="onlinehelp"></a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="table_title_description n"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <isif condition="${pdict.error}">
+        <div class="error-bar">
+            <isprint value="${pdict.error}" />
+        </div>
+    </isif>
+
+    <isif condition="${pdict.success}">
+        <div class="success-bar">
+            <isprint value="${pdict.success}"/>
+        </div>
+    </isif>
+
+    <form action="${pdict.configurationContinueUrl}" id="form" name="configuration" method="post" autocomplete="false">
+        <table border="0" cellspacing="0" cellpadding="5" class="form">
+            <tr>
+                <td class="l" nowrap="nowrap">
+                    <h1>Sign Up For Returnly</h1>
+                </td>
+                <td class="r" nowrap="nowrap">
+                    <h1>Connect To Returnly</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="l">
+                    <p class="subheader">
+                        You need a Returnly account in order to use this cartridge. If you haven't already, please create an account now.
+                    </p>
+                </td>
+                <td class="r">
+                    <p class="subheader">
+                        Connect to Returnly with the credentials you received when creating your account (be sure to use the <b>${instanceType}</b> ones)
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l">
+                    <a class="button" href="https://returnly.com/salesforce/signup" target="_blank">SIGN UP</a>
+                </td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="SFTPUsername">SFTP Username <sup class="required">*</sup></label>
+                    </div>
+                    <input
+                            type="text"
+                            id="SFTPUsername"
+                            name="SFTPUsername"
+                            required
+                            value="${pdict.form.SFTPUsername || ''}"
+                            size="50"
+                            placeholder="John Show"
+                            class="inputfield_en" />
+                    <p class="hint">
+                      Can be found in your <a href="${dashboardURL}" target="_blank">Returnly Dashboard</a>. Note that you should also import the private key at Administration -> Operations -> Private Keys and Certificates
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="APIToken">API Token <sup class="required">*</sup></label>
+                    </div>
+                    <input
+                            type="text"
+                            name="APIToken"
+                            id="APIToken"
+                            required
+                            value="${pdict.form.APIToken || ''}"
+                            size="50"
+                            placeholder="Super Secret Key"
+                            class="inputfield_en" />
+                    <p class="hint">
+                        Can be found in your <a href="${dashboardURL}" target="_blank">Returnly Dashboard</a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="SiteProtectionPassword">Storefront Password</label>
+                    </div>
+                    <input
+                            type="text"
+                            id="SiteProtectionPassword"
+                            name="SiteProtectionPassword"
+                            value="${pdict.form.SiteProtectionPassword || ''}"
+                            size="50"
+                            placeholder="pwd"
+                            class="inputfield_en" />
+                    <p class="hint">
+                        If your  instance has storefront protection password set, please paste it here. Alternatively, please disable the password protection while testing Returnly
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="agentUserLogin">Agent User Login</label>
+                    </div>
+                    <input
+                            type="text"
+                            id="agentUserLogin"
+                            name="agentUserLogin"
+                            value="${pdict.form.agentUserLogin || ''}"
+                            size="50"
+                            placeholder="agentUser@example.com"
+                            class="inputfield_en"
+                             />
+                    <p class="hint">
+                        Login of agent user with Login_Agent , Login_On_Behalf and Create_Order_On_Behalf_Of functional permissions.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="agentUserPassword">Agent User Password</label>
+                    </div>
+                    <input
+                            type="password"
+                            id="agentUserPassword"
+                            name="agentUserPassword"
+                            value="${pdict.form.agentUserPassword || ''}"
+                            size="50"
+                            class="inputfield_en"
+                            readonly
+                            onfocus="this.removeAttribute('readonly');"/>
+                    <p class="hint">
+                        Password of agent user with Login_Agent , Login_On_Behalf and Create_Order_On_Behalf_Of functional permissions.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r">
+                    <div>
+                        <label class="label" for="agentUserLogin">Image View Type</label>
+                    </div>
+                    <input
+                            type="text"
+                            id="imageViewType"
+                            name="imageViewType"
+                            value="${pdict.form.imageViewType || ''}"
+                            size="50"
+                            placeholder=""
+                            class="inputfield_en"
+                             />
+                    <p class="hint">
+                        Image view type to be used by returnly when pulling product images.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="l"></td>
+                <td class="r" style="padding-bottom: 35px;">
+                    <button class="button" type="submit">CONNECT</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</isdecorate>

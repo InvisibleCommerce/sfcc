@@ -1,0 +1,137 @@
+'use strict';
+
+var GiftCertificateMgr = require('dw/order/GiftCertificateMgr'),
+	GiftCertificate = require('dw/order/GiftCertificate'),
+	ReturnlyError = require('~/cartridge/scripts/ReturnlyError'),
+	Transaction = require('dw/system/Transaction'),
+	Site = require('dw/system/Site'),
+	System = require('dw/system/System'),
+	returnlyConst = require('./returnlyConstants');
+
+var DWCertMgr = function(){
+	/**
+	 * Returns gift certificate's status as string
+	 *
+	 * @param gc : GiftCertificate
+	 * @return String
+	 */
+	function _getGiftCertificateStatus(gc){
+		return returnlyConst.GIFT_CERTIFICATE_STATUSES[gc.status];
+	}
+	
+	/**
+	 * Generates JS-object for rendering gift certificate as JSON
+	 *
+	 * @param gc : GiftCertificate
+	 * @return Object
+	 */
+	function _getGiftCertificateDetails(gc){
+		return {
+			'siteID':		Site.current.ID,
+			'instanceType':	_getInstanceType(),
+			'balance': 		Math.round(gc.balance.value * 100),
+			'description': 	gc.description,
+			'enabled':		gc.enabled,
+			'giftCertificateCode':	gc.giftCertificateCode,
+			'merchantId':	gc.merchantID,
+			'message':		gc.message,
+			'orderNo':		gc.orderNo,
+            'amount':       Math.round(gc.amount.value * 100),
+			'recipientEmail':	gc.recipientEmail,
+			'recipientName':	gc.recipientName,
+			'status': 		_getGiftCertificateStatus(gc),
+			'UUID':			gc.getUUID()
+		}
+	}
+	
+	/**
+	 * Returns instance type as string
+	 *
+	 * @return String
+	 */
+	 
+	function _getInstanceType(){
+		return returnlyConst.INSTANCE_TYPES[System.instanceType];
+	}
+	
+	/**
+	 * Provides gift certificate by code
+	 *
+	 * @param code : String
+	 * @return Object
+	 */
+	this.getGiftCertificateByCode = function(code){
+		var gc = GiftCertificateMgr.getGiftCertificateByCode(code);
+		if (gc == null){
+			return new ReturnlyError('Gift Certificate not found');
+		}
+		return _getGiftCertificateDetails(gc);
+	};
+	
+	/**
+	 * Creates gift certificate
+	 *
+	 * @param giftCertDetails : Object
+	 * @return Object details of created gift certificate
+	 */
+	this.createGiftCertificate = function(giftCertDetails){
+		var gc,
+			amount = new Number(Math.floor(giftCertDetails.balance)) / 100;
+		if (isNaN(amount) || amount <= 0){
+			return new ReturnlyError('Gift Certificate with balance \'' + giftCertDetails.balance + '\' can\'t be created');
+		}
+		giftCertDetails.code = giftCertDetails.code || "";
+		if (!empty(giftCertDetails.code) && !empty(GiftCertificateMgr.getGiftCertificateByCode(giftCertDetails.code))){
+			return new ReturnlyError('Gift Certificate with code \'' + giftCertDetails.code + '\' already exists');
+		}
+		
+		try{
+			Transaction.wrap(function(){
+				gc = GiftCertificateMgr.createGiftCertificate(amount, giftCertDetails.code);
+				if (!empty(giftCertDetails.description)){
+					gc.setDescription(giftCertDetails.description);
+				}
+				if (!empty(giftCertDetails.recipientEmail)){
+					gc.setRecipientEmail(giftCertDetails.recipientEmail);
+				}
+				if (!empty(giftCertDetails.recipientName)){
+					gc.setRecipientName(giftCertDetails.recipientName);
+				}
+				if (!empty(giftCertDetails.message)){
+					gc.setMessage(giftCertDetails.message);
+				}
+				if (!empty(giftCertDetails.orderNo)){
+					gc.setOrderNo(giftCertDetails.orderNo);
+				}
+			});
+		} catch(e) {
+			require('dw/system/Logger').error('Transaction error: ' + e);
+			return new ReturnlyError('Gift Certificate (' + JSON.stringify(giftCertDetails) + ') can\'t be created');
+		}
+		return _getGiftCertificateDetails(gc);
+	};
+	/**
+	 * Disables gift certificate
+	 *
+	 * @param code : String
+	 * @return Object details of modified gift certificate
+	 */
+	this.disableGiftCertificateByCode = function(code){
+		var gc = GiftCertificateMgr.getGiftCertificateByCode(code);
+		if (gc == null){
+			return new ReturnlyError('Gift Certificate not found');
+		}
+		try{
+			Transaction.wrap(function(){
+				gc.setEnabled(false);
+			});
+		} catch(e) {
+			require('dw/system/Logger').error('Transaction error: ' + e);
+			return new ReturnlyError('Gift Certificate ' + code + ' can\'t be disabled');
+		}
+		return _getGiftCertificateDetails(gc);
+	};
+};
+DWCertMgr.prototype = require('./AbstractCertMgr');
+
+module.exports = new DWCertMgr();

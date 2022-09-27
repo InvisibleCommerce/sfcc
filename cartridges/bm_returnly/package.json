@@ -1,0 +1,6 @@
+{
+  "init": [
+    "./cartridge/scripts/service/ReturnlySFTPServiceInit.ds",
+    "./cartridge/scripts/service/ReturnlyHTTPServiceInit.ds"
+  ]
+}

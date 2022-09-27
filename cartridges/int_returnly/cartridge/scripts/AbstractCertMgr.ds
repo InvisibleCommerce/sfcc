@@ -1,0 +1,21 @@
+'use strict';
+
+/**
+ * Abstract class of Gift Certificate manager
+ *
+ */
+
+var AbstraceCertMgr = function(){};
+AbstraceCertMgr.prototype = {
+	getGiftCertificateByCode: function(code){
+		throw new Error("method 'getGiftCertificateByCode' is not implemented");
+	},
+	createGiftCertificate: function(giftCertDetails){
+		throw new Error("method 'createGiftCertificate' is not implemented");
+	},
+	disableGiftCertificateByCode: function(code){
+		throw new Error("method 'disableGiftCertificateByCode' is not implemented");
+	},
+};
+
+module.exports = new AbstraceCertMgr();

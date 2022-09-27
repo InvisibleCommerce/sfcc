@@ -1,0 +1,6 @@
+node_modules/
+dw.json
+.idea/
+.DS_Store
+cartridges/shippedCartridge/cartridge/static/default/css/
+cartridges/shippedCartridge/cartridge/static/default/js/

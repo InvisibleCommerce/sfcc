@@ -1,0 +1,6 @@
+{
+   "hooks": "./hooks.json",
+   "devDependencies": {
+      "sgmf-scripts": "^2.4.1"
+   }
+}
