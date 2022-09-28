@@ -20,26 +20,29 @@ server.prepend('Begin', server.middleware.get, function (req, res, next) {
 
 
   // remove any existing items first
-  // var existingLineItems = currentBasket.getAllProductLineItems();
-  // for each (var lineItem in existingLineItems.toArray()) {
-  //   if (lineItem.productID === 'shipped-shield') {
-  //     Transaction.wrap(function () {
-  //       currentBasket.removeProductLineItem(lineItem);
-  //     });
-  //   }
-  // }
+  var existingLineItems = currentBasket.getAllProductLineItems();
+  for each (var lineItem in existingLineItems.toArray()) {
+    if (lineItem.productID === 'shipped-shield') {
+      Transaction.wrap(function () {
+        currentBasket.removeProductLineItem(lineItem);
+      });
+    }
+  }
 
   // add relevant items
+  var optionModel = product.getOptionModel();
+  var productOption = optionModel.options[0];
+  optionModel.setSelectedOptionValue(productOption, productOption.optionValues[1])
+
   Transaction.wrap(function () {
     shippedLi = cartHelper.addLineItem(
       currentBasket,
       product,
       1,
       [],
-      product.getOptionModel(),
+      optionModel,
       currentBasket.getDefaultShipment()
     );
-    shippedLi.setPriceValue(0.97);
   });
 
 
@@ -48,20 +51,6 @@ server.prepend('Begin', server.middleware.get, function (req, res, next) {
   //     status: 'added', grossPrice: shippedLi.grossPrice.value, price: shippedLi.price.value, quantity: shippedLi.quantity.value
   //   });
   // }
-  next();
-});
-
-server.append('Begin', server.middleware.get, function (req, res, next) {
-  // let session = req.session;
-  // res.json({ status: 'added', session: session });
-
-  var BasketMgr = require('dw/order/BasketMgr');
-  var currentBasket = BasketMgr.getCurrentBasket();
-  var shippedLi = currentBasket.getAllProductLineItems()[1];
-
-  Transaction.wrap(function () {
-    shippedLi.setPriceValue(0.97);
-  });
   next();
 });
 
