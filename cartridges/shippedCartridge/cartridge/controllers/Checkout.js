@@ -32,7 +32,7 @@ server.prepend('Begin', server.middleware.get, function (req, res, next) {
   // add relevant items
   var optionModel = product.getOptionModel();
   var productOption = optionModel.options[0];
-  optionModel.setSelectedOptionValue(productOption, productOption.optionValues[1])
+  optionModel.setSelectedOptionValue(productOption, productOption.optionValues[0])
 
   Transaction.wrap(function () {
     shippedLi = cartHelper.addLineItem(

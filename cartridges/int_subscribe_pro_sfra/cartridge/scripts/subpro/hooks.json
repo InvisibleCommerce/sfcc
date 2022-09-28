@@ -1,8 +1,0 @@
-{
-    "hooks": [
-        {
-            "name": "dw.order.payment.authorizeCreditCard",
-            "script": "./hooks/authorizeCreditCard"
-        }
-    ]
-}

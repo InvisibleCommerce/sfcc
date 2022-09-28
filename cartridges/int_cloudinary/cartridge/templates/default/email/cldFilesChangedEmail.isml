@@ -1,3 +1,0 @@
-<div>
-    <p>${Resource.msgf('cloudinary.files.changed.email.body', 'cloudinary', null, pdict.changedFilesCount)}</p>
-</div>

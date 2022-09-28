@@ -1,8 +1,0 @@
-{
-    "hooks": [
-        {
-            "name": "",
-            "script": "./cartridge/scripts/hooks/..."
-        }
-    ]
-}

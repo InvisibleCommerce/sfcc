@@ -4,3 +4,9 @@ dw.json
 .DS_Store
 cartridges/shippedCartridge/cartridge/static/default/css/
 cartridges/shippedCartridge/cartridge/static/default/js/
+cartridges/bm_returnly/
+cartridges/int_cloudinary/
+cartridges/int_cloudinary_sfra/
+cartridges/int_extend_sfra/
+cartridges/int_returnly/
+cartridges/int_subscribe_pro_sfra/
