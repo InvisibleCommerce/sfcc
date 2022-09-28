@@ -1,7 +1,9 @@
 <isdecorate template="common/layout/page">
+    <script src="https://js-staging.shippedsuite.com/api/shield.js"></script>
+
     <isscript>
         var assets = require('*/cartridge/scripts/assets.js');
-        assets.addJs('/js/cart.js');
+        assets.addJs('/js/shippedWidget.js');
         assets.addCss('/css/cart.css');
     </isscript>
 
@@ -29,7 +31,7 @@
                 </a>
             </div>
             <div class="col-sm-3 text-center">
-                <h5 class="number-of-items">${Resource.msgf('label.number.items.in.cart','cart', null, pdict.numItems)}</h5>
+                <h2 class="number-of-items">${Resource.msgf('label.number.items.in.cart','cart', null, pdict.numItems)}</h2>
             </div>
             <div class="col-sm-5 text-right hidden-xs-down">
                 <div>
@@ -46,10 +48,11 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h1>${Resource.msg('info.cart.empty.msg','cart',null)}</h1>
+                    <div class="shipped-shield-div"></div>
                 </div>
             </div>
         </div>
-        <iselse/>
+    <iselse/>
         <div class="container cart cart-page">
             <div class="row">
                 <!---product cards--->
@@ -57,8 +60,12 @@
                     <isloop items="${pdict.items}" var="lineItem">
                         <isif condition="${lineItem.productType === 'bundle'}">
                             <isinclude template="cart/productCard/cartBundleCard" />
+                        <iselse/>
+                            <isif condition="${lineItem.noProduct === true}">
+                                <isinclude template="cart/productCard/uncategorizedCartProductCard" />
                             <iselse/>
-                            <isinclude template="cart/productCard/cartProductCard" />
+                                <isinclude template="cart/productCard/cartProductCard" />
+                            </isif>
                         </isif>
                     </isloop>
                     <isinclude template="cart/cartApproachingDiscount" />
@@ -78,11 +85,11 @@
                             <isinclude template="cart/checkoutButtons" />
                         </div>
                     </div>
-                    <br/>
                 </div>
             </div>
             <isinclude template="cart/cartRemoveProductModal"/>
         </div>
+
         <isinclude template="cart/cartRemoveCouponModal"/>
     </isif>
     <div class="container">
