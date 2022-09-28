@@ -48,7 +48,6 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h1>${Resource.msg('info.cart.empty.msg','cart',null)}</h1>
-                    <div class="shipped-shield-div"></div>
                 </div>
             </div>
         </div>
@@ -69,6 +68,8 @@
                         </isif>
                     </isloop>
                     <isinclude template="cart/cartApproachingDiscount" />
+
+                    <div class="shipped-shield-div"></div>
                 </div>
                 <!---totals, and checkout actions--->
                 <div class="col-sm-5 col-md-4 totals">
