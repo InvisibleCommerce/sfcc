@@ -14,8 +14,15 @@ server.prepend('Begin', server.middleware.get, function (req, res, next) {
   var currentBasket = BasketMgr.getCurrentBasket();
   var totalPrice = currentBasket.merchandizeTotalGrossPrice.value;
   var cartHelper = require('*/cartridge/scripts/cart/cartHelpers');
+  var shippedLi;
+
   Transaction.wrap(function () {
-    cartHelper.addProductToCart(currentBasket, 'shipped-shield', 1, [], []);
+    shippedLi = cartHelper.addProductToCart(currentBasket, 'shipped-shield', 1, [], []);
+  });
+
+  Transaction.wrap(function () {
+    shippedLi.setPriceValue(0.97);
+    shippedLi.setQuantityValue(1);
   });
 
   // if (true) { // should add or remove shipped?
