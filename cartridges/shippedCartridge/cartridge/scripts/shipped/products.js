@@ -2,7 +2,7 @@
 
 var Site = require('dw/system/Site').getCurrent();
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-// var webService = require('~/cartridge/scripts/services/rest');
+var webService = require('~/cartridge/scripts/services/rest');
 
 /**
  * Get products payload for specific API version
@@ -65,9 +65,8 @@ function syncProduct(product) {
 
   var productObject = getProductPayload(product);
   logger.info('resulting product object {0}', JSON.stringify(productObject));
-  // var endpointName = 'products';
-  // var response = webService.makeServiceCall(endpointName, requestObject);
-  // return response;
+  var response = webService.upsertProduct(productObject);
+  return response;
 }
 
 module.exports = {

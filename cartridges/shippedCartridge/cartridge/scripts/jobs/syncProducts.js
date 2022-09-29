@@ -19,9 +19,15 @@ exports.execute = function () {
   logger.info('Starting processing new products...');
   logger.info(productsIterator.hasNext());
 
+  var i = 0;
   while (productsIterator.hasNext()) {
     var product = productsIterator.next();
     products.syncProduct(product);
+    i++;
+
+    if (i > 20) {
+      break;
+    }
   }
 
   productsIterator.close();
