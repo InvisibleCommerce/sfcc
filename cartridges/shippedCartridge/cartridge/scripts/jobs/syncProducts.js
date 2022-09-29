@@ -16,7 +16,7 @@ var products = require('~/cartridge/scripts/shipped/products');
 exports.execute = function () {
   var productsIterator = ProductMgr.queryAllSiteProducts();
 
-  logger.info('Starting processing new products...');
+  logger.info('Starting products sync...');
   logger.info(productsIterator.hasNext());
 
   var i = 0;
@@ -25,12 +25,14 @@ exports.execute = function () {
     products.syncProduct(product);
     i++;
 
-    if (i > 20) {
-      break;
-    }
+    // break out early when testing
+    // if (i > 20) {
+    //   break;
+    // }
   }
 
   productsIterator.close();
+  logger.info('Products sync completed');
 
   return new Status(Status.OK, 'OK', 'Products Sync job completed');
 };

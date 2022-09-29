@@ -10,6 +10,8 @@ var webService = require('~/cartridge/scripts/services/rest');
  * @returns {Object} productObj - payload object for request
  */
 function getProductPayload(product) {
+  var imageViewType = 'medium';
+
   var category = !empty(product.getPrimaryCategory()) ? product.getPrimaryCategory().getDisplayName() : '';
 
   var productObj = {};
@@ -19,6 +21,16 @@ function getProductPayload(product) {
   // productObj.imageUrl = product.getImage(EXTEND_IMAGE_VIEW_TYPE, 0) ? product.getImage(EXTEND_IMAGE_VIEW_TYPE, 0).getAbsURL().toString() : '';
   productObj.name = product.getName();
   productObj.external_id = product.getID();
+  productObj.images = [];
+  var images = product.getImages(imageViewType).toArray();
+  for each (var image in images) {
+    var url = image.getHttpsURL().toString();
+    productObj.images.push({
+      external_id: url,
+      url: url
+    });
+  }
+
   var variants = [];
   if (!product.isMaster()) {
     variants.push(product);
@@ -64,7 +76,8 @@ function syncProduct(product) {
   if (product.isVariationGroup()) return;
 
   var productObject = getProductPayload(product);
-  logger.info('resulting product object {0}', JSON.stringify(productObject));
+  logger.info('syncing {0}', productObject.external_id);
+  // logger.info('resulting product object {0}', JSON.stringify(productObject));
   var response = webService.upsertProduct(productObject);
   return response;
 }
