@@ -5,6 +5,7 @@ var webService = require('~/cartridge/scripts/services/rest');
 var OrderItemModel = require('~/cartridge/scripts/shipped/orderItemModel');
 var ShippingAddressModel = require('~/cartridge/scripts/shipped/shippingAddressModel');
 var CustomerModel = require('~/cartridge/scripts/shipped/customerModel');
+var TransactionModel = require('~/cartridge/scripts/shipped/transactionModel');
 
 function buildOrderPayload(order) {
   var orderObj = {};
@@ -20,10 +21,24 @@ function buildOrderPayload(order) {
   var shippingAddress = order.getDefaultShipment().getShippingAddress()
   orderObj.shipping_address = ShippingAddressModel.buildShippingAddressPayload(shippingAddress);
   orderObj.order_items = buildOrderItemsPayload(order);
+  orderObj.transactions = buildTransactionsPayload(order);
   orderObj.shield_selected = getShieldSelection(order);
   orderObj.green_selected = getGreenSelection(order);
 
   return orderObj;
+}
+
+function buildTransactionsPayload(order) {
+  var paymentInstruments = order.getPaymentInstruments();
+
+  var transactionsPayload = [];
+  for each (var paymentInstrument in paymentInstruments) {
+    var transactionObj = TransactionModel.buildTransactionPayload(paymentInstrument);
+
+    transactionsPayload.push(transactionObj);
+  }
+
+  return transactionsPayload;
 }
 
 function getFulfillmentStatus(order) {
@@ -56,7 +71,6 @@ function buildOrderItemsPayload(order) {
     if (orderItem.isOptionProductLineItem()) continue;
     if (orderItem.isBundledProductLineItem()) continue;
 
-    logger.info(orderItem.getLineItemText());
     var orderItemObj = OrderItemModel.buildOrderItemPayload(orderItem);
 
     orderItemsPayload.push(orderItemObj);

@@ -5,7 +5,6 @@ var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 function buildOrderItemPayload(productLineItem) {
   var orderItemObj = {};
   var product = productLineItem.getProduct();
-  logger.info(JSON.stringify(productLineItem));
 
   orderItemObj.external_id = productLineItem.getUUID();
   orderItemObj.external_product_id = getProductID(product);
@@ -17,8 +16,6 @@ function buildOrderItemPayload(productLineItem) {
   orderItemObj.discount = 0;
   orderItemObj.tax = getTax(productLineItem);
   orderItemObj.product_type = getProductType(product);
-
-  logger.info(JSON.stringify(orderItemObj));
 
   return orderItemObj;
 }
