@@ -22,13 +22,14 @@ function buildCustomerPayload(order, customer) {
 function getFirstName(order, profile) {
   if (!empty(profile)) return profile.getFirstName();
 
-  return order.getCustomerName().split('')[0];
+  return order.getCustomerName().split(' ')[0];
 }
 
 function getLastName(order, profile) {
   if (!empty(profile)) return profile.getLastName();
+  var names = order.getCustomerName().split(' ');
 
-  return order.getCustomerName().split('')[1];
+  return names[names.length - 1];
 }
 
 function getCustomerPhone(profile) {

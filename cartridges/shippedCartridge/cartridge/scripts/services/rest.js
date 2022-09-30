@@ -32,7 +32,7 @@ function createServiceCall(configObj) {
   return LocalServiceRegistry.createService('bm_shipped.http.auth', {
     createRequest: function(service, requestData) {
       var credential = service.configuration.credential;
-      var path = '/' + configObj.api_version + '/' + configObj.endpoint;
+      var path = configObj.api_version + '/' + configObj.endpoint;
 
       service.addHeader('Accept', 'application/json');
       service.addHeader('Content-Type', 'application/json');

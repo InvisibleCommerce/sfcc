@@ -14,14 +14,38 @@ function buildOrderPayload(order) {
   orderObj.external_id = order.getOrderNo();
   orderObj.placed_at = order.getCreationDate().toISOString();
   // orderObj.canceled_at
-  orderObj.payment_status = order.getPaymentStatus().getDisplayValue();
-  orderObj.fulfillment_status = order.getShippingStatus().getDisplayValue();
+  orderObj.payment_status = getPaymentStatus(order);
+  orderObj.fulfillment_status = getFulfillmentStatus(order);
   orderObj.customer = CustomerModel.buildCustomerPayload(order, order.getCustomer());
   var shippingAddress = order.getDefaultShipment().getShippingAddress()
   orderObj.shipping_address = ShippingAddressModel.buildShippingAddressPayload(shippingAddress);
   orderObj.order_items = buildOrderItemsPayload(order);
+  orderObj.shield_selected = getShieldSelection(order);
+  orderObj.green_selected = getGreenSelection(order);
 
   return orderObj;
+}
+
+function getFulfillmentStatus(order) {
+  switch (order.getShippingStatus().getValue()) {
+    case 0: // not shipped
+      return 'pending';
+    case 1: // partially shipped
+      return 'partial';
+    case 2: // shipped
+      return 'fulfilled';
+  }
+}
+
+function getPaymentStatus(order) {
+  switch (order.getPaymentStatus().getValue()) {
+    case 0: // not paid
+      return 'pending';
+    case 1: // partially paid
+      return 'partially_paid';
+    case 2: // paid
+      return 'paid';
+  }
 }
 
 function buildOrderItemsPayload(order) {
@@ -29,12 +53,40 @@ function buildOrderItemsPayload(order) {
 
   var orderItemsPayload = [];
   for each (var orderItem in orderItems) {
+    if (orderItem.isOptionProductLineItem()) continue;
+    if (orderItem.isBundledProductLineItem()) continue;
+
+    logger.info(orderItem.getLineItemText());
     var orderItemObj = OrderItemModel.buildOrderItemPayload(orderItem);
 
     orderItemsPayload.push(orderItemObj);
   }
 
   return orderItemsPayload;
+}
+
+function getShieldSelection(order) {
+  var orderItems = order.getAllProductLineItems();
+
+  for each (var orderItem in orderItems) {
+    if (OrderItemModel.isShield(orderItem)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function getGreenSelection(order) {
+  var orderItems = order.getAllProductLineItems();
+
+  for each (var orderItem in orderItems) {
+    if (OrderItemModel.isGreen(orderItem)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 module.exports = {

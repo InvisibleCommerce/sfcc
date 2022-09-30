@@ -5,6 +5,7 @@ var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 function buildOrderItemPayload(productLineItem) {
   var orderItemObj = {};
   var product = productLineItem.getProduct();
+  logger.info(JSON.stringify(productLineItem));
 
   orderItemObj.external_id = productLineItem.getUUID();
   orderItemObj.external_product_id = getProductID(product);
@@ -29,9 +30,23 @@ function getTax(productLineItem) {
 }
 
 function getUnitPrice(productLineItem) {
-  var netPrice = productLineItem.getAdjustedNetPrice().getValue();
+  var netPrice = getTotalPrice(productLineItem);
 
   return netPrice / productLineItem.getQuantityValue();
+}
+
+function getTotalPrice(productLineItem) {
+  var options = productLineItem.getOptionProductLineItems();
+  var productPrice = productLineItem.getAdjustedNetPrice().getValue();
+
+  if (empty(options)) return productPrice;
+
+  var optionsPrice = 0;
+  for each (var option in options) {
+    optionsPrice += option.getAdjustedNetPrice().getValue();
+  }
+
+  return productPrice + optionsPrice;
 }
 
 function getProductID(product) {
@@ -58,6 +73,22 @@ function getProductType(product) {
   return 'regular';
 }
 
+function isShield(productLineItem) {
+  var product = productLineItem.getProduct()
+  if (empty(product)) return;
+
+  return getProductType(product) == 'insurance';
+}
+
+function isGreen(productLineItem) {
+  var product = productLineItem.getProduct()
+  if (empty(product)) return;
+
+  return getProductType(product) == 'carbon';
+}
+
 module.exports = {
-  buildOrderItemPayload: buildOrderItemPayload
+  buildOrderItemPayload: buildOrderItemPayload,
+  isShield: isShield,
+  isGreen: isGreen
 };
