@@ -6,6 +6,7 @@ var OrderItemModel = require('~/cartridge/scripts/shipped/orderItemModel');
 var ShippingAddressModel = require('~/cartridge/scripts/shipped/shippingAddressModel');
 var CustomerModel = require('~/cartridge/scripts/shipped/customerModel');
 var TransactionModel = require('~/cartridge/scripts/shipped/transactionModel');
+var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/shippingAdjustmentModel');
 
 function buildOrderPayload(order) {
   var orderObj = {};
@@ -21,6 +22,8 @@ function buildOrderPayload(order) {
   var shippingAddress = order.getDefaultShipment().getShippingAddress()
   orderObj.shipping_address = ShippingAddressModel.buildShippingAddressPayload(shippingAddress);
   orderObj.order_items = buildOrderItemsPayload(order);
+  orderObj.order_adjustments = []
+  orderObj.order_adjustments.push(buildShippingAdjustmentsPayload(order));
   orderObj.transactions = buildTransactionsPayload(order);
   orderObj.shield_selected = getShieldSelection(order);
   orderObj.green_selected = getGreenSelection(order);
@@ -61,6 +64,12 @@ function getPaymentStatus(order) {
     case 2: // paid
       return 'paid';
   }
+}
+
+function buildShippingAdjustmentsPayload(order) {
+  var shippingAdjustmentObj = ShippingAdjustmentModel.buildShippingAdjustmentPayload(order);
+
+  return shippingAdjustmentObj;
 }
 
 function buildOrderItemsPayload(order) {
