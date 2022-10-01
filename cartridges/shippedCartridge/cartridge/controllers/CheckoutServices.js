@@ -6,7 +6,6 @@ var page = module.superModule;
 server.extend(page);
 
 server.append('PlaceOrder', server.middleware.https, function (req, res, next) {
-  var Site = require('dw/system/Site').getCurrent();
   var OrderMgr = require('dw/order/OrderMgr');
   var orders = require('~/cartridge/scripts/shipped/orders');
 

@@ -8,8 +8,6 @@ var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var orders = require('~/cartridge/scripts/shipped/orders');
 
 exports.execute = function () {
-  // var productsIterator = OrderMgr.queryAllSiteProducts();
-
   logger.info('Starting orders sync...');
 
   var order = OrderMgr.getOrder('00000201');
