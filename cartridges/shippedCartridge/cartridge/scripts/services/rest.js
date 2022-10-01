@@ -21,6 +21,11 @@ function createRequestConfiguration(action) {
       // configObj.mock = mocks.ordersResponseMock;
       break;
 
+    case 'upsertShipment':
+      configObj.endpoint = 'shipments';
+      // configObj.mock = mocks.ordersResponseMock;
+      break;
+
     default:
       break;
   }
