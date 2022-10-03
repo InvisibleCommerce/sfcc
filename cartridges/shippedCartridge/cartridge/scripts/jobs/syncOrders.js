@@ -1,8 +1,7 @@
-/* eslint-disable no-continue */
-/* eslint-disable linebreak-style */
-/* global module */
+'use strict';
 
 var OrderMgr = require('dw/order/OrderMgr');
+var CustomObjectMgr = require('dw/object/CustomObjectMgr');
 var Status = require('dw/system/Status');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var orders = require('~/cartridge/scripts/shipped/orders');
@@ -10,8 +9,15 @@ var orders = require('~/cartridge/scripts/shipped/orders');
 exports.execute = function () {
   logger.info('Starting orders sync...');
 
-  var order = OrderMgr.getOrder('00000201');
-  orders.syncOrder(order);
+  var ordersQueue = CustomObjectMgr.getAllCustomObjects('shippedOrderQueue');
+
+  while (ordersQueue.hasNext()) {
+    var queueOrder = ordersQueue.next();
+    var orderNo = queueOrder.custom.orderNo;
+
+    var order = OrderMgr.getOrder(orderNo);
+    orders.syncOrder(order);
+  }
 
   logger.info('Orders sync completed');
 

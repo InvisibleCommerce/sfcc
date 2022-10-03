@@ -16,7 +16,7 @@ exports.execute = function () {
   var i = 0;
   while (productsIterator.hasNext()) {
     var product = productsIterator.next();
-    products.syncProduct(product);
+    products.syncMasterProduct(product);
     i++;
 
     // break out early when testing

@@ -30,7 +30,7 @@ function getVariantName(product, variant) {
     }
     return  names.join(' / ');
   } else {
-    return variantObj.name = variant.getName() == product.getName() ? '' : variant.getName();
+    return variant.getName() == product.getName() ? '' : variant.getName();
   }
 }
 
