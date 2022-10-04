@@ -1,9 +1,6 @@
 <isdecorate template="common/layout/page">
-    <script src="https://js-staging.shippedsuite.com/api/shield.js"></script>
-
     <isscript>
         var assets = require('*/cartridge/scripts/assets.js');
-        assets.addJs('/js/shippedWidget.js');
         assets.addCss('/css/cart.css');
     </isscript>
 
@@ -69,7 +66,7 @@
                     </isloop>
                     <isinclude template="cart/cartApproachingDiscount" />
 
-                    <div class="shipped-shield-div"></div>
+                    <isinclude template="include/shippedWidget"></isinclude>
                 </div>
                 <!---totals, and checkout actions--->
                 <div class="col-sm-5 col-md-4 totals">

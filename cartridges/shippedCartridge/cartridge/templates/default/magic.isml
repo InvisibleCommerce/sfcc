@@ -1,9 +1,0 @@
-<isdecorate template="common/layout/page">
-    <script src="https://js-staging.shippedsuite.com/api/shield.js"></script>
-    <isscript>
-        var assets = require('*/cartridge/scripts/assets.js');
-        assets.addJs('/js/shippedWidget.js');
-    </isscript>
-
-    <div class="shipped-shield-div"></div>
-</isdecorate>

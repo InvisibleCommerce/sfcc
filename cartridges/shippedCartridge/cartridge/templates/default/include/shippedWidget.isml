@@ -1,1 +1,27 @@
-<script src="https://js-staging.shippedsuite.com/api/shield.js"></script>
+<isif condition="${dw.system.Site.current.preferences.custom.shippedGlobalSwitch}">
+  <script>
+    shippedConfig = {
+      publicKey: "${dw.system.Site.current.preferences.custom.shippedPublishableToken}",
+      shieldDiv: '.shipped-shield-div',
+      isShield: ${dw.system.Site.current.preferences.custom.shippedShield},
+      isGreen: ${dw.system.Site.current.preferences.custom.shippedGreen},
+      isOffByDefault: ${dw.system.Site.current.preferences.custom.shippedIsOffByDefault},
+      isInformational: ${dw.system.Site.current.preferences.custom.shippedIsInformational},
+      isMandatory: ${dw.system.Site.current.preferences.custom.shippedIsMandatory},
+      appearance: '${dw.system.Site.current.preferences.custom.shippedAppearance}',
+    }
+  </script>
+
+  <isif condition="${dw.system.Site.current.preferences.custom.shippedEnvironment == 'production'}">
+    <script src="https://js.shippedsuite.com/api/shield.js"></script>
+  <iselse>
+    <script src="https://js-staging.shippedsuite.com/api/shield.js"></script>
+  </isif>
+
+  <isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addJs('/js/shippedWidget.js');
+  </isscript>
+
+  <div class="shipped-shield-div"></div>
+</isif>
