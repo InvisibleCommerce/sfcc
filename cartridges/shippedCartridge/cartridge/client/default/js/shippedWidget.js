@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const shield = new Shipped.Shield(shippedConfig);
+  const shield = new Shipped.Widget(shippedConfig);
 
   shield.updateOrderValue(430);
   shield.onChange(function(details) {
