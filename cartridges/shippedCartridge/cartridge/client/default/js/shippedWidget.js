@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   shield.onChange(function(details) {
     console.log(details)
     let path;
-    if (details.isShieldEnabled) {
+    if (details.isSelected) {
       // add shield
       path = '/on/demandware.store/Sites-RefArch-Site/default/ShippedSuite-Add'
       console.log('adding...')

@@ -6,10 +6,12 @@ var Transaction = require('dw/system/Transaction');
 
 server.extend(page);
 
-server.prepend('Begin', server.middleware.get, function (req, res, next) {
-  // let session = req.session;
-  // res.json({ status: 'added', session: session });
+// server.replace('Begin', function (req, res, next) {
+//   res.json({ status: 'added', session: req.session.privacyCache.get('shippedSuite') });
+//   next();
+// });
 
+server.prepend('Begin', function (req, res, next) {
   var BasketMgr = require('dw/order/BasketMgr');
   var ProductMgr = require('dw/catalog/ProductMgr');
   var currentBasket = BasketMgr.getCurrentBasket();
