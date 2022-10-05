@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const shield = new Shipped.Widget(shippedConfig);
 
+  // TODO: calculate actual order price here
   shield.updateOrderValue(430);
   shield.onChange(function(details) {
     console.log(details)

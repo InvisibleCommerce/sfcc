@@ -11,6 +11,11 @@ function createRequestConfiguration(action) {
   configObj.method = 'POST';
 
   switch (action) {
+    case 'getOffers':
+      configObj.endpoint = 'offers';
+      // configObj.mock = mocks.offersResponseMock;
+      break;
+
     case 'upsertProduct':
       configObj.endpoint = 'products';
       // configObj.mock = mocks.productsResponseMock;
@@ -23,7 +28,7 @@ function createRequestConfiguration(action) {
 
     case 'upsertShipment':
       configObj.endpoint = 'shipments';
-      // configObj.mock = mocks.ordersResponseMock;
+      // configObj.mock = mocks.shipmentsResponseMock;
       break;
 
     default:
@@ -51,7 +56,7 @@ function createServiceCall(configObj) {
       return requestData;
     },
     parseResponse: function(service, client) {
-      return client.text;
+      return JSON.parse(client.text);
     },
     mockCall: function(service, client) {
       return {
