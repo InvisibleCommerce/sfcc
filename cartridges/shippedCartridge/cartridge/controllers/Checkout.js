@@ -21,18 +21,18 @@ server.prepend('Begin', function (req, res, next) {
 
   // remove any existing items first
   removeShippedLineItems(currentBasket);
-  // removeShippedOrderPriceAdjustment(currentBasket)
+  removeShippedOrderPriceAdjustment(currentBasket)
 
   // add relevant items
   // addShippedLineItems(currentBasket)
-  addShippedProductPriceAdjustment(currentBasket);
-  // addShippedOrderPriceAdjustment(currentBasket);
+  // addShippedProductPriceAdjustment(currentBasket);
+  addShippedOrderPriceAdjustment(currentBasket);
 
   next();
 });
 
 function calculateTotalPrice(currentBasket) {
-  return currentBasket.merchandizeTotalGrossPrice.value;
+  return currentBasket.merchandizeTotalNetPrice.value;
 }
 
 function calculateShippedFee(currentBasket) {
@@ -79,6 +79,7 @@ function addShippedProductPriceAdjustment(currentBasket) {
   var product = ProductMgr.getProduct('shipped-shield');
   var optionModel = product.getOptionModel();
   var productLineItem;
+  var fee = calculateShippedFee(currentBasket);
 
   Transaction.wrap(function () {
     productLineItem = cartHelper.addLineItem(
@@ -90,7 +91,7 @@ function addShippedProductPriceAdjustment(currentBasket) {
       currentBasket.getDefaultShipment()
     );
     var priceAdjustment = productLineItem.createPriceAdjustment('shipped-shield')
-    priceAdjustment.setPriceValue(1.83)
+    priceAdjustment.setPriceValue(fee);
   });
 }
 

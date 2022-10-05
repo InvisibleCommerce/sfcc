@@ -23,5 +23,5 @@
     assets.addJs('/js/shippedWidget.js');
   </isscript>
 
-  <div class="shipped-widget"></div>
+  <div class="shipped-widget" data-subtotal="${pdict.totals.subTotal}"></div>
 </isif>

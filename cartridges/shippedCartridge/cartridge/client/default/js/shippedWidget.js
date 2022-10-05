@@ -1,9 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const shield = new Shipped.Widget(shippedConfig);
+  const shippedWidget = new Shipped.Widget(shippedConfig);
 
-  // TODO: calculate actual order price here
-  shield.updateOrderValue(430);
-  shield.onChange(function(details) {
+  function subtotalValue(subtotal) {
+    if (subtotal === null || subtotal === undefined) return 0;
+
+    return subtotal.replace('$', '').replace(',', '');
+  }
+
+  var widget = document.getElementsByClassName('shipped-widget')[0];
+  shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
+
+  // update order value when cart items change
+  $('body').on('cart:update promotion:success', function(e, data) {
+    var totals;
+    if (data.basket === undefined) {
+      totals = data.totals;
+    } else {
+      totals = data.basket.totals;
+    }
+    if (totals === undefined) return;
+
+    shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
+  });
+
+  shippedWidget.onChange(function(details) {
     console.log(details)
     let path;
     if (details.isSelected) {
