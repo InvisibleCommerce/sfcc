@@ -7,7 +7,46 @@ document.addEventListener('DOMContentLoaded', function () {
     return subtotal.replace('$', '').replace(',', '');
   }
 
+  var existingDetails;
+
+  function shouldRefreshUI(existingDetails, details) {
+    if (existingDetails === undefined) return true;
+    if (existingDetails.totalFee === details.totalFee && existingDetails.isSelected == details.isSelected) return false;
+
+    return true;
+  }
+
+  function handleShippedChange(details) {
+    let path;
+    if (details.isSelected) {
+      // add shield
+      path = '/on/demandware.store/Sites-RefArch-Site/default/ShippedSuite-Add'
+      console.log('adding...')
+    } else {
+      // remove shield
+      path = '/on/demandware.store/Sites-RefArch-Site/default/ShippedSuite-Remove'
+      console.log('removing...')
+    }
+
+    var shouldRefresh = shouldRefreshUI(existingDetails, details);
+    console.log('should refresh UI?', shouldRefresh);
+    existingDetails = details;
+
+    fetch(path, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      mode: 'same-origin',
+    }).then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      if (shouldRefresh) $('.quantity-form > .quantity').change();
+    });
+  }
+
   var widget = document.getElementsByClassName('shipped-widget')[0];
+  var existingSubtotal = widget.dataset.subtotal;
   shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
 
   // update order value when cart items change
@@ -20,30 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (totals === undefined) return;
 
-    shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
-  });
+    console.log('change total?', existingSubtotal !== totals.subTotal);
+    if (existingSubtotal !== totals.subTotal) {
 
-  shippedWidget.onChange(function(details) {
-    console.log(details)
-    let path;
-    if (details.isSelected) {
-      // add shield
-      path = '/on/demandware.store/Sites-RefArch-Site/default/ShippedSuite-Add'
-      console.log('adding...')
-    } else {
-      // remove shield
-      path = '/on/demandware.store/Sites-RefArch-Site/default/ShippedSuite-Remove'
-      console.log('removing...')
+      shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
     }
 
-    fetch(path, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      },
-      mode: 'same-origin',
-    }).then(function(response) {
-      console.log(response);
-    });
+    existingSubtotal = totals.subTotal;
   });
+
+  shippedWidget.onChange(details => handleShippedChange(details));
 });
