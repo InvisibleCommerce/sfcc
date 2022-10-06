@@ -158,7 +158,6 @@ function totals(lineItemContainer) {
         formatted: formatMoney(shippedTotal)
       };
     }
-
     // SHIPPED EXTENSION END
 
     this.orderLevelDiscountTotal = getOrderLevelDiscountTotal(lineItemContainer);

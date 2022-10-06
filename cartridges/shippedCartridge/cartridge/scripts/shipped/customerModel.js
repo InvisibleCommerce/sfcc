@@ -1,7 +1,6 @@
 'use strict';
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var webService = require('~/cartridge/scripts/services/rest');
 
 function buildCustomerPayload(order, customer) {
   var customerObj = {};

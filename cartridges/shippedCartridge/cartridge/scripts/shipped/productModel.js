@@ -1,7 +1,6 @@
 'use strict';
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var webService = require('~/cartridge/scripts/services/rest');
 var VariantModel = require('~/cartridge/scripts/shipped/variantModel');
 
 function buildProductPayload(product) {

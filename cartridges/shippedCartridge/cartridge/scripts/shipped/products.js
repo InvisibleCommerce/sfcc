@@ -1,7 +1,7 @@
 'use strict';
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var webService = require('~/cartridge/scripts/services/rest');
+var webService = require('~/cartridge/scripts/services/shippedRest');
 var ProductModel = require('~/cartridge/scripts/shipped/productModel');
 
 function syncMasterProduct(product) {
