@@ -1,6 +1,7 @@
 const server = require('server');
 var shippedBasketHelpers = require('~/cartridge/scripts/helpers/shippedBasketHelpers');
 var BasketMgr = require('dw/order/BasketMgr');
+var CartModel = require('*/cartridge/models/cart');
 
 server.post('Add', function (req, res, next) {
   // let's add a variable to session indicating user opted in
@@ -9,7 +10,9 @@ server.post('Add', function (req, res, next) {
   var currentBasket = BasketMgr.getCurrentBasket();
   shippedBasketHelpers.ensureCorrectShippedLineItems(currentBasket, true);
 
-  res.json({ status: 'added', session: req.session.privacyCache.shippedSuite });
+  var basketModel = new CartModel(currentBasket);
+  res.json(basketModel);
+
   next();
 });
 
@@ -20,7 +23,9 @@ server.post('Remove', function (req, res, next) {
   var currentBasket = BasketMgr.getCurrentBasket();
   shippedBasketHelpers.ensureCorrectShippedLineItems(currentBasket, false);
 
-  res.json({ status: 'removed', session: req.session.privacyCache.shippedSuite });
+  var basketModel = new CartModel(currentBasket);
+  res.json(basketModel);
+
   next();
 });
 
