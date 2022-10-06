@@ -27,7 +27,9 @@ function getOrderLevelDiscountTotal(lineItemContainer) {
 
   // SHIPPED EXTENSION START
   var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID('shipped-shield');
-  orderDiscount = orderDiscount.add(shippedPriceAdjustment.getPrice());
+  if (!empty(shippedPriceAdjustment)) {
+    orderDiscount = orderDiscount.add(shippedPriceAdjustment.getPrice());
+  }
   // SHIPPED EXTENSION END
 
   return {
@@ -144,11 +146,19 @@ function totals(lineItemContainer) {
 
     // SHIPPED EXTENSION START
     var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID('shipped-shield');
-    var shippedTotal = shippedPriceAdjustment.getPrice();
-    this.shippedTotal = {
-      value: shippedTotal.value,
-      formatted: formatMoney(shippedTotal)
-    };
+    if (empty(shippedPriceAdjustment)) {
+      this.shippedTotal = {
+        value: 0,
+        formatted: '-'
+      };
+    } else {
+      var shippedTotal = shippedPriceAdjustment.getPrice();
+      this.shippedTotal = {
+        value: shippedTotal.value,
+        formatted: formatMoney(shippedTotal)
+      };
+    }
+
     // SHIPPED EXTENSION END
 
     this.orderLevelDiscountTotal = getOrderLevelDiscountTotal(lineItemContainer);

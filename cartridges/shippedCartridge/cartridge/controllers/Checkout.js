@@ -26,7 +26,9 @@ server.prepend('Begin', function (req, res, next) {
   // add relevant items
   // addShippedLineItems(currentBasket)
   // addShippedProductPriceAdjustment(currentBasket);
-  addShippedOrderPriceAdjustment(currentBasket);
+  if (req.session.privacyCache.get('shippedSuite')) {
+    addShippedOrderPriceAdjustment(currentBasket);
+  }
 
   next();
 });
@@ -62,56 +64,56 @@ function addShippedOrderPriceAdjustment(currentBasket) {
   });
 }
 
-function removeShippedLineItems(currentBasket) {
-  var product = ProductMgr.getProduct('shipped-shield');
+// function removeShippedLineItems(currentBasket) {
+//   var product = ProductMgr.getProduct('shipped-shield');
+//
+//   var existingLineItems = currentBasket.getAllProductLineItems();
+//   for each (var lineItem in existingLineItems.toArray()) {
+//     if (lineItem.productID === product.getID()) {
+//       Transaction.wrap(function () {
+//         currentBasket.removeProductLineItem(lineItem);
+//       });
+//     }
+//   }
+// }
 
-  var existingLineItems = currentBasket.getAllProductLineItems();
-  for each (var lineItem in existingLineItems.toArray()) {
-    if (lineItem.productID === product.getID()) {
-      Transaction.wrap(function () {
-        currentBasket.removeProductLineItem(lineItem);
-      });
-    }
-  }
-}
+// function addShippedProductPriceAdjustment(currentBasket) {
+//   var product = ProductMgr.getProduct('shipped-shield');
+//   var optionModel = product.getOptionModel();
+//   var productLineItem;
+//   var fee = calculateShippedFee(currentBasket);
+//
+//   Transaction.wrap(function () {
+//     productLineItem = cartHelper.addLineItem(
+//       currentBasket,
+//       product,
+//       1,
+//       [],
+//       optionModel,
+//       currentBasket.getDefaultShipment()
+//     );
+//     var priceAdjustment = productLineItem.createPriceAdjustment('shipped-shield')
+//     priceAdjustment.setPriceValue(fee);
+//   });
+// }
 
-function addShippedProductPriceAdjustment(currentBasket) {
-  var product = ProductMgr.getProduct('shipped-shield');
-  var optionModel = product.getOptionModel();
-  var productLineItem;
-  var fee = calculateShippedFee(currentBasket);
-
-  Transaction.wrap(function () {
-    productLineItem = cartHelper.addLineItem(
-      currentBasket,
-      product,
-      1,
-      [],
-      optionModel,
-      currentBasket.getDefaultShipment()
-    );
-    var priceAdjustment = productLineItem.createPriceAdjustment('shipped-shield')
-    priceAdjustment.setPriceValue(fee);
-  });
-}
-
-function addShippedLineItems(currentBasket) {
-  var product = ProductMgr.getProduct('shipped-shield');
-
-  var optionModel = product.getOptionModel();
-  var productOption = optionModel.options[0];
-  optionModel.setSelectedOptionValue(productOption, productOption.optionValues[0])
-
-  Transaction.wrap(function () {
-    cartHelper.addLineItem(
-      currentBasket,
-      product,
-      1,
-      [],
-      optionModel,
-      currentBasket.getDefaultShipment()
-    );
-  });
-}
+// function addShippedLineItems(currentBasket) {
+//   var product = ProductMgr.getProduct('shipped-shield');
+//
+//   var optionModel = product.getOptionModel();
+//   var productOption = optionModel.options[0];
+//   optionModel.setSelectedOptionValue(productOption, productOption.optionValues[0])
+//
+//   Transaction.wrap(function () {
+//     cartHelper.addLineItem(
+//       currentBasket,
+//       product,
+//       1,
+//       [],
+//       optionModel,
+//       currentBasket.getDefaultShipment()
+//     );
+//   });
+// }
 
 module.exports = server.exports();

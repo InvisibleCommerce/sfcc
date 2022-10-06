@@ -88,8 +88,12 @@ function buildOrderItemsPayload(order) {
 }
 
 function getShieldSelection(order) {
-  var orderItems = order.getAllProductLineItems();
+  // this checks for order-level price adjustment method
+  var shieldPriceAdjustment = order.getPriceAdjustmentByPromotionID('shipped-shield');
+  if (!empty(shieldPriceAdjustment)) return true;
 
+  // this checks for product-level price adjustment method
+  var orderItems = order.getAllProductLineItems();
   for each (var orderItem in orderItems) {
     if (OrderItemModel.isShield(orderItem)) {
       return true;
@@ -100,8 +104,12 @@ function getShieldSelection(order) {
 }
 
 function getGreenSelection(order) {
-  var orderItems = order.getAllProductLineItems();
+  // this checks for order-level price adjustment method
+  var greenPriceAdjustment = order.getPriceAdjustmentByPromotionID('shipped-green');
+  if (!empty(greenPriceAdjustment)) return true;
 
+  // this checks for product-level price adjustment method
+  var orderItems = order.getAllProductLineItems();
   for each (var orderItem in orderItems) {
     if (OrderItemModel.isGreen(orderItem)) {
       return true;
