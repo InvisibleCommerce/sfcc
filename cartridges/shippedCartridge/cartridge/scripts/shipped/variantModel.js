@@ -24,9 +24,9 @@ function getVariantName(product, variant) {
     var variationModel = variant.getVariationModel();
     var variationAttributes = variationModel.getProductVariationAttributes();
     var names = [];
-    for each (var variationAttribute in variationAttributes) {
-      names.push(variationModel.getSelectedValue(variationAttribute).displayValue)
-    }
+    variationAttributes.toArray().forEach(function (variationAttribute) {
+      names.push(variationModel.getSelectedValue(variationAttribute).displayValue);
+    });
     return  names.join(' / ');
   } else {
     return variant.getName() == product.getName() ? '' : variant.getName();

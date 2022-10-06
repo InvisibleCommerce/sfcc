@@ -54,13 +54,13 @@ function addShippedOrderPriceAdjustment(currentBasket) {
 //   var product = ProductMgr.getProduct('shipped-shield');
 //
 //   var existingLineItems = currentBasket.getAllProductLineItems();
-//   for each (var lineItem in existingLineItems.toArray()) {
+//   existingLineItems.toArray().forEach(function (lineItem) {
 //     if (lineItem.productID === product.getID()) {
 //       Transaction.wrap(function () {
 //         currentBasket.removeProductLineItem(lineItem);
 //       });
 //     }
-//   }
+//   });
 // }
 
 // function addShippedProductPriceAdjustment(currentBasket) {

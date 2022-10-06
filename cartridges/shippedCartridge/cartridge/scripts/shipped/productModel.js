@@ -24,13 +24,13 @@ function buildImagesPayload(product) {
   var imageViewType = 'medium';
 
   var images = product.getImages(imageViewType).toArray();
-  for each (var image in images) {
+  images.forEach(function (image) {
     var url = image.getHttpsURL().toString();
     imagesPayload.push({
       external_id: url,
       url: url
     });
-  }
+  });
 
   return imagesPayload;
 }
@@ -40,15 +40,15 @@ function buildVariantsPayload(product) {
   if (!product.isMaster()) {
     variants.push(product);
   } else {
-    variants = product.getVariants();
+    variants = product.getVariants().toArray();
   }
 
   var variantsPayload = [];
-  for each (var variant in variants) {
+  variants.forEach(function (variant) {
     var variantObj = VariantModel.buildVariantPayload(product, variant);
 
     variantsPayload.push(variantObj);
-  }
+  });
 
   return variantsPayload;
 }

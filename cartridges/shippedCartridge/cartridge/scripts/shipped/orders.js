@@ -19,13 +19,13 @@ function syncOrder(order) {
 }
 
 function syncProducts(order) {
-  for each (var productLineItem in order.getAllProductLineItems()) {
+  order.getAllProductLineItems().toArray().forEach(function (productLineItem) {
     var product = productLineItem.getProduct();
-    if (empty(product)) continue;
+    if (empty(product)) return;
 
     var response = products.syncProduct(product);
     logger.info('response {0}', JSON.stringify(response));
-  }
+  });
 }
 
 module.exports = {

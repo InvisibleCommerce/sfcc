@@ -34,11 +34,11 @@ function buildTransactionsPayload(order) {
   var paymentInstruments = order.getPaymentInstruments();
 
   var transactionsPayload = [];
-  for each (var paymentInstrument in paymentInstruments) {
+  paymentInstruments.toArray().forEach(function (paymentInstrument) {
     var transactionObj = TransactionModel.buildTransactionPayload(paymentInstrument);
 
     transactionsPayload.push(transactionObj);
-  }
+  });
 
   return transactionsPayload;
 }
@@ -75,14 +75,14 @@ function buildOrderItemsPayload(order) {
   var orderItems = order.getAllProductLineItems();
 
   var orderItemsPayload = [];
-  for each (var orderItem in orderItems) {
-    if (orderItem.isOptionProductLineItem()) continue;
-    if (orderItem.isBundledProductLineItem()) continue;
+  orderItems.toArray().forEach(function (orderItem) {
+    if (orderItem.isOptionProductLineItem()) return;
+    if (orderItem.isBundledProductLineItem()) return;
 
     var orderItemObj = OrderItemModel.buildOrderItemPayload(orderItem);
 
     orderItemsPayload.push(orderItemObj);
-  }
+  });
 
   return orderItemsPayload;
 }
@@ -94,11 +94,9 @@ function getShieldSelection(order) {
 
   // this checks for product-level price adjustment method
   var orderItems = order.getAllProductLineItems();
-  for each (var orderItem in orderItems) {
-    if (OrderItemModel.isShield(orderItem)) {
-      return true;
-    }
-  }
+  orderItems.toArray().some(function (orderItem) {
+    return OrderItemModel.isShield(orderItem);
+  });
 
   return false;
 }
@@ -110,11 +108,9 @@ function getGreenSelection(order) {
 
   // this checks for product-level price adjustment method
   var orderItems = order.getAllProductLineItems();
-  for each (var orderItem in orderItems) {
-    if (OrderItemModel.isGreen(orderItem)) {
-      return true;
-    }
-  }
+  orderItems.toArray().some(function (orderItem) {
+    return OrderItemModel.isGreen(orderItem);
+  });
 
   return false;
 }

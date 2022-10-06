@@ -19,14 +19,14 @@ function buildShipmentItemsPayload(shipment) {
   var shipmentItemsPayload = [];
   var productLineItems = shipment.getProductLineItems();
 
-  for each (var productLineItem in productLineItems) {
+  productLineItems.toArray().forEach(function (productLineItem) {
     var shipmentItemObj = {};
-    shipmentItemObj.external_id = productLineItem.getUUID() + "-shipment-item";
+    shipmentItemObj.external_id = productLineItem.getUUID() + '-shipment-item';
     shipmentItemObj.external_order_item_id = productLineItem.getUUID();
     shipmentItemObj.quantity = productLineItem.getQuantityValue();
 
     shipmentItemsPayload.push(shipmentItemObj);
-  }
+  });
 
   return shipmentItemsPayload;
 }

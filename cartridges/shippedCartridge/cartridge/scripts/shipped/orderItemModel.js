@@ -39,9 +39,9 @@ function getTotalPrice(productLineItem) {
   if (empty(options)) return productPrice;
 
   var optionsPrice = 0;
-  for each (var option in options) {
+  options.toArray().forEach(function (option) {
     optionsPrice += option.getAdjustedNetPrice().getValue();
-  }
+  });
 
   return productPrice + optionsPrice;
 }
