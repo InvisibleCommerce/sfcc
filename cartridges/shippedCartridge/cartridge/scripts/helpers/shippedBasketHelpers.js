@@ -1,6 +1,8 @@
 'use strict';
 
 var Transaction = require('dw/system/Transaction');
+var ProductMgr = require('dw/catalog/ProductMgr');
+var cartHelper = require('*/cartridge/scripts/cart/cartHelpers');
 var webService = require('~/cartridge/scripts/services/shippedRest');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 
