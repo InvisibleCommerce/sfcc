@@ -42,7 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }).then(function(response) {
       return response.json();
     }).then(function(data) {
-      if (shouldRefresh) $('.quantity-form > .quantity').change();
+      if (shouldRefresh) {
+        $('.quantity-form > .quantity').filter(function (index, selector) {
+          selector.dataset.pid !== 'shipped-shield' && selector.dataset.pid !== 'shipped-green'
+        }).first().change();
+      }
     });
   }
 

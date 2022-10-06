@@ -5,22 +5,35 @@ var ProductMgr = require('dw/catalog/ProductMgr');
 var cartHelper = require('*/cartridge/scripts/cart/cartHelpers');
 var webService = require('~/cartridge/scripts/services/shippedRest');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
+var Site = require('dw/system/Site').getCurrent();
 
 function ensureCorrectShippedLineItems(lineItemsContainer, shippedSelected) {
   // remove any existing items first
-  // removeShippedLineItems(currentBasket);
+  removeShippedLineItems(lineItemsContainer);
   removeShippedOrderPriceAdjustment(lineItemsContainer);
 
   // add relevant items
   // addShippedLineItems(currentBasket)
-  // addShippedProductPriceAdjustment(currentBasket);
   if (shippedSelected) {
-    addShippedOrderPriceAdjustment(lineItemsContainer);
+    var shippedLineItemType = Site.getCustomPreferenceValue('shippedLineItemType').value;
+    if (shippedLineItemType === 'productPriceAdjustment') {
+      addShippedProductPriceAdjustment(lineItemsContainer);
+    } else {
+      addShippedOrderPriceAdjustment(lineItemsContainer);
+    }
   }
 }
 
 function calculateTotalPrice(currentBasket) {
-  return currentBasket.merchandizeTotalNetPrice.value;
+  var basketTotal = currentBasket.merchandizeTotalNetPrice.value;
+
+  currentBasket.getAllProductLineItems().toArray().forEach(function (productLineItem) {
+    if (productLineItem.getProductID() === 'shipped-shield' || productLineItem.getProductID() === 'shipped-green') {
+      basketTotal -= productLineItem.getGrossPrice();
+    }
+  });
+
+  return basketTotal;
 }
 
 function calculateShippedFee(currentBasket) {
@@ -50,38 +63,39 @@ function addShippedOrderPriceAdjustment(currentBasket) {
   });
 }
 
-// function removeShippedLineItems(currentBasket) {
-//   var product = ProductMgr.getProduct('shipped-shield');
-//
-//   var existingLineItems = currentBasket.getAllProductLineItems();
-//   existingLineItems.toArray().forEach(function (lineItem) {
-//     if (lineItem.productID === product.getID()) {
-//       Transaction.wrap(function () {
-//         currentBasket.removeProductLineItem(lineItem);
-//       });
-//     }
-//   });
-// }
+function removeShippedLineItems(currentBasket) {
+  var product = ProductMgr.getProduct('shipped-shield');
 
-// function addShippedProductPriceAdjustment(currentBasket) {
-//   var product = ProductMgr.getProduct('shipped-shield');
-//   var optionModel = product.getOptionModel();
-//   var productLineItem;
-//   var fee = calculateShippedFee(currentBasket);
-//
-//   Transaction.wrap(function () {
-//     productLineItem = cartHelper.addLineItem(
-//       currentBasket,
-//       product,
-//       1,
-//       [],
-//       optionModel,
-//       currentBasket.getDefaultShipment()
-//     );
-//     var priceAdjustment = productLineItem.createPriceAdjustment('shipped-shield')
-//     priceAdjustment.setPriceValue(fee);
-//   });
-// }
+  var existingLineItems = currentBasket.getAllProductLineItems();
+  existingLineItems.toArray().forEach(function (lineItem) {
+    if (lineItem.productID === product.getID()) {
+      Transaction.wrap(function () {
+        currentBasket.removeProductLineItem(lineItem);
+      });
+    }
+  });
+}
+
+function addShippedProductPriceAdjustment(currentBasket) {
+  var product = ProductMgr.getProduct('shipped-shield');
+  var optionModel = product.getOptionModel();
+  var productLineItem;
+  var fee = calculateShippedFee(currentBasket);
+  if (fee <= 0) return;
+
+  Transaction.wrap(function () {
+    productLineItem = cartHelper.addLineItem(
+      currentBasket,
+      product,
+      1,
+      [],
+      optionModel,
+      currentBasket.getDefaultShipment()
+    );
+    var priceAdjustment = productLineItem.createPriceAdjustment('shipped-shield');
+    priceAdjustment.setPriceValue(fee);
+  });
+}
 
 // function addShippedLineItems(currentBasket) {
 //   var product = ProductMgr.getProduct('shipped-shield');

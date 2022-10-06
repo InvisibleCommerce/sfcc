@@ -1,4 +1,4 @@
-const server = require('server');
+var server = require('server');
 var shippedBasketHelpers = require('~/cartridge/scripts/helpers/shippedBasketHelpers');
 var BasketMgr = require('dw/order/BasketMgr');
 var CartModel = require('*/cartridge/models/cart');

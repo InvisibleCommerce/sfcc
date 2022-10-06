@@ -1,13 +1,17 @@
 'use strict';
 
 var server = require('server');
+var OrderMgr = require('dw/order/OrderMgr');
 var shippedHelpers = require('~/cartridge/scripts/helpers/shippedHelpers');
+var Site = require('dw/system/Site').getCurrent();
 
 var page = module.superModule;
 server.extend(page);
 
 server.append('PlaceOrder', server.middleware.https, function (req, res, next) {
-  var OrderMgr = require('dw/order/OrderMgr');
+  if (!Site.getCustomPreferenceValue('shippedOrderSync')) {
+    return next();
+  }
 
   var viewData = res.getViewData();
 
@@ -15,8 +19,7 @@ server.append('PlaceOrder', server.middleware.https, function (req, res, next) {
     return next();
   }
 
-  var order = OrderMgr.getOrder(viewData.orderID);
-  shippedHelpers.enqueueOrder(order);
+  shippedHelpers.enqueueOrder(OrderMgr.getOrder(viewData.orderID));
 
   return next();
 });

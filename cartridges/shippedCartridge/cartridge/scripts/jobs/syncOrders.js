@@ -8,11 +8,6 @@ var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var orders = require('~/cartridge/scripts/shipped/orders');
 
 exports.execute = function () {
-  var Site = require('dw/system/Site').getCurrent();
-  if (!Site.getCustomPreferenceValue('shippedOrderSync')) {
-    return new Status(Status.OK, 'OK', 'Orders Sync job skipped - feature is deactivated');
-  }
-
   logger.info('Starting orders sync...');
 
   var ordersQueue = CustomObjectMgr.getAllCustomObjects('shippedOrderQueue');
