@@ -1,6 +1,4 @@
-/* eslint-disable no-continue */
-/* eslint-disable linebreak-style */
-/* global module */
+'use strict';
 
 var ProductMgr = require('dw/catalog/ProductMgr');
 var Status = require('dw/system/Status');
@@ -13,16 +11,9 @@ exports.execute = function () {
   logger.info('Starting products sync...');
   logger.info(productsIterator.hasNext());
 
-  var i = 0;
   while (productsIterator.hasNext()) {
     var product = productsIterator.next();
     products.syncMasterProduct(product);
-    i++;
-
-    // break out early when testing
-    // if (i > 20) {
-    //   break;
-    // }
   }
 
   productsIterator.close();

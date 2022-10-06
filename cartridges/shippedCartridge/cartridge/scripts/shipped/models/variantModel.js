@@ -27,7 +27,7 @@ function getVariantName(product, variant) {
     variationAttributes.toArray().forEach(function (variationAttribute) {
       names.push(variationModel.getSelectedValue(variationAttribute).displayValue);
     });
-    return  names.join(' / ');
+    return names.join(' / ');
   } else {
     return variant.getName() == product.getName() ? '' : variant.getName();
   }
@@ -39,13 +39,10 @@ function getFullName(variant) {
   } else {
     var variantName = getVariantName(variant);
     var product = variant.getMasterProduct();
-    return product.getName + " (" + variantName + ")";
+    return product.getName + ' (' + variantName + ')';
   }
 }
 
 module.exports = {
-  buildVariantPayload: buildVariantPayload,
-  getSKU: getSKU,
-  getVariantName: getVariantName,
-  getFullName: getFullName
+  buildVariantPayload: buildVariantPayload
 };

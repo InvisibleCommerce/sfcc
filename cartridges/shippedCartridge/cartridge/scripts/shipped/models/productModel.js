@@ -3,22 +3,6 @@
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var VariantModel = require('~/cartridge/scripts/shipped/models/variantModel');
 
-function buildProductPayload(product) {
-  var category = !empty(product.getPrimaryCategory()) ? product.getPrimaryCategory().getDisplayName() : '';
-
-  var productObj = {};
-  productObj.brand = product.getBrand();
-  productObj.category = category;
-  productObj.description = !empty(product.getShortDescription()) ? product.getShortDescription().getMarkup() : '';
-  // productObj.imageUrl = product.getImage(EXTEND_IMAGE_VIEW_TYPE, 0) ? product.getImage(EXTEND_IMAGE_VIEW_TYPE, 0).getAbsURL().toString() : '';
-  productObj.name = product.getName();
-  productObj.external_id = product.getID();
-  productObj.images = buildImagesPayload(product);
-  productObj.variants = buildVariantsPayload(product);
-
-  return productObj;
-}
-
 function buildImagesPayload(product) {
   var imagesPayload = [];
   var imageViewType = 'medium';
@@ -51,6 +35,21 @@ function buildVariantsPayload(product) {
   });
 
   return variantsPayload;
+}
+
+function buildProductPayload(product) {
+  var category = !empty(product.getPrimaryCategory()) ? product.getPrimaryCategory().getDisplayName() : '';
+
+  var productObj = {};
+  productObj.brand = product.getBrand();
+  productObj.category = category;
+  productObj.description = !empty(product.getShortDescription()) ? product.getShortDescription().getMarkup() : '';
+  productObj.name = product.getName();
+  productObj.external_id = product.getID();
+  productObj.images = buildImagesPayload(product);
+  productObj.variants = buildVariantsPayload(product);
+
+  return productObj;
 }
 
 module.exports = {

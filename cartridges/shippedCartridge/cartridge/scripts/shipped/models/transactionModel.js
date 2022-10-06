@@ -2,6 +2,14 @@
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 
+function getCategory(paymentTransaction) {
+  var category = paymentTransaction.getType().getValue();
+
+  if (empty(category)) return 'sale';
+
+  return category;
+}
+
 function buildTransactionPayload(paymentInstrument) {
   var transactionObj = {};
   var paymentTransaction = paymentInstrument.getPaymentTransaction();
@@ -16,14 +24,6 @@ function buildTransactionPayload(paymentInstrument) {
   transactionObj.processed_at = paymentTransaction.getCreationDate().toISOString();
 
   return transactionObj;
-}
-
-function getCategory(paymentTransaction) {
-  var category = paymentTransaction.getType().getValue();
-
-  if (empty(category)) return 'sale';
-
-  return category;
 }
 
 module.exports = {

@@ -1,6 +1,5 @@
 'use strict';
 
-var Site = require('dw/system/Site').getCurrent();
 var logger = require('dw/system/Logger').getLogger('ShippedAPI', 'Shipped');
 var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
 
@@ -40,7 +39,7 @@ function createRequestConfiguration(action) {
 
 function createServiceCall(configObj) {
   return LocalServiceRegistry.createService('bm_shipped.http.auth', {
-    createRequest: function(service, requestData) {
+    createRequest: function (service, requestData) {
       var credential = service.configuration.credential;
       var path = configObj.api_version + '/' + configObj.endpoint;
 
@@ -55,14 +54,14 @@ function createServiceCall(configObj) {
 
       return requestData;
     },
-    parseResponse: function(service, client) {
+    parseResponse: function (service, client) {
       return JSON.parse(client.text);
     },
-    mockCall: function(service, client) {
+    mockCall: function (service, client) {
       return {
         statusCode: 200,
-        statusMessage: "Success",
-        text: "MOCK RESPONSE (" + svc.URL + ")"
+        statusMessage: 'Success',
+        text: 'MOCK RESPONSE (' + service.URL + ')'
       };
     }
   });

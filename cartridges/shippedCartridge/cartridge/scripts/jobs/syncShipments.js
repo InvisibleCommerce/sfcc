@@ -1,6 +1,4 @@
-/* eslint-disable no-continue */
-/* eslint-disable linebreak-style */
-/* global module */
+'use strict';
 
 var OrderMgr = require('dw/order/OrderMgr');
 var Status = require('dw/system/Status');

@@ -2,22 +2,6 @@
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 
-function buildCustomerPayload(order, customer) {
-  var customerObj = {};
-  var profile = customer.getProfile();
-
-  customerObj.external_id = customer.getID();
-  customerObj.first_name = getFirstName(order, profile);
-  customerObj.last_name = getLastName(order, profile);
-  customerObj.email = empty(profile) ? order.getCustomerEmail() : profile.getEmail();
-  customerObj.phone = getCustomerPhone(profile);
-  customerObj.notes = customer.getNote();
-  customerObj.accepts_email_marketing = false;
-  customerObj.accepts_sms_marketing = false;
-
-  return customerObj;
-}
-
 function getFirstName(order, profile) {
   if (!empty(profile)) return profile.getFirstName();
 
@@ -45,6 +29,22 @@ function getCustomerPhone(profile) {
   } else {
     return profile.getPhoneMobile();
   }
+}
+
+function buildCustomerPayload(order, customer) {
+  var customerObj = {};
+  var profile = customer.getProfile();
+
+  customerObj.external_id = customer.getID();
+  customerObj.first_name = getFirstName(order, profile);
+  customerObj.last_name = getLastName(order, profile);
+  customerObj.email = empty(profile) ? order.getCustomerEmail() : profile.getEmail();
+  customerObj.phone = getCustomerPhone(profile);
+  customerObj.notes = customer.getNote();
+  customerObj.accepts_email_marketing = false;
+  customerObj.accepts_sms_marketing = false;
+
+  return customerObj;
 }
 
 module.exports = {

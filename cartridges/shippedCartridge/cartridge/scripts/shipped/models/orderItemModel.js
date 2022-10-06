@@ -2,34 +2,10 @@
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 
-function buildOrderItemPayload(productLineItem) {
-  var orderItemObj = {};
-  var product = productLineItem.getProduct();
-
-  orderItemObj.external_id = productLineItem.getUUID();
-  orderItemObj.external_product_id = getProductID(product);
-  orderItemObj.external_variant_id = getVariantID(product);
-  orderItemObj.sku = product.getID();
-  orderItemObj.description = productLineItem.getLineItemText();
-  orderItemObj.quantity = productLineItem.getQuantityValue();
-  orderItemObj.unit_price = getUnitPrice(productLineItem);
-  orderItemObj.discount = 0;
-  orderItemObj.tax = getTax(productLineItem);
-  orderItemObj.product_type = 'regular';
-
-  return orderItemObj;
-}
-
 function getTax(productLineItem) {
   if (empty(productLineItem.getAdjustedTax())) return 0;
 
   return productLineItem.getAdjustedTax().getDecimalValue().toString();
-}
-
-function getUnitPrice(productLineItem) {
-  var netPrice = getTotalPrice(productLineItem);
-
-  return netPrice / productLineItem.getQuantityValue();
 }
 
 function getTotalPrice(productLineItem) {
@@ -46,6 +22,12 @@ function getTotalPrice(productLineItem) {
   return productPrice + optionsPrice;
 }
 
+function getUnitPrice(productLineItem) {
+  var netPrice = getTotalPrice(productLineItem);
+
+  return netPrice / productLineItem.getQuantityValue();
+}
+
 function getProductID(product) {
   if (product.isVariant()) {
     return product.getMasterProduct().getID();
@@ -56,6 +38,24 @@ function getProductID(product) {
 
 function getVariantID(product) {
   return product.getID();
+}
+
+function buildOrderItemPayload(productLineItem) {
+  var orderItemObj = {};
+  var product = productLineItem.getProduct();
+
+  orderItemObj.external_id = productLineItem.getUUID();
+  orderItemObj.external_product_id = getProductID(product);
+  orderItemObj.external_variant_id = getVariantID(product);
+  orderItemObj.sku = product.getID();
+  orderItemObj.description = productLineItem.getLineItemText();
+  orderItemObj.quantity = productLineItem.getQuantityValue();
+  orderItemObj.unit_price = getUnitPrice(productLineItem);
+  orderItemObj.discount = 0;
+  orderItemObj.tax = getTax(productLineItem);
+  orderItemObj.product_type = 'regular';
+
+  return orderItemObj;
 }
 
 module.exports = {

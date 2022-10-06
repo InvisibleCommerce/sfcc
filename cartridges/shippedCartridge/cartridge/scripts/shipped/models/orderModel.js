@@ -8,29 +8,6 @@ var TransactionModel = require('~/cartridge/scripts/shipped/models/transactionMo
 var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/models/shippingAdjustmentModel');
 var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 
-function buildOrderPayload(order) {
-  var orderObj = {};
-
-  orderObj.number = order.getOrderNo();
-  orderObj.email = order.getCustomerEmail();
-  orderObj.external_id = order.getOrderNo();
-  orderObj.placed_at = order.getCreationDate().toISOString();
-  // orderObj.canceled_at
-  orderObj.payment_status = getPaymentStatus(order);
-  orderObj.fulfillment_status = getFulfillmentStatus(order);
-  orderObj.customer = CustomerModel.buildCustomerPayload(order, order.getCustomer());
-  var shippingAddress = order.getDefaultShipment().getShippingAddress()
-  orderObj.shipping_address = ShippingAddressModel.buildShippingAddressPayload(shippingAddress);
-  orderObj.order_items = buildOrderItemsPayload(order);
-  orderObj.order_adjustments = []
-  orderObj.order_adjustments.push(buildShippingAdjustmentsPayload(order));
-  orderObj.transactions = buildTransactionsPayload(order);
-  orderObj.shield_selected = getShieldSelection(order);
-  orderObj.green_selected = getGreenSelection(order);
-
-  return orderObj;
-}
-
 function buildTransactionsPayload(order) {
   var paymentInstruments = order.getPaymentInstruments();
 
@@ -102,6 +79,29 @@ function getGreenSelection(order) {
   if (!empty(priceAdjustment)) return true;
 
   return false;
+}
+
+function buildOrderPayload(order) {
+  var orderObj = {};
+
+  orderObj.number = order.getOrderNo();
+  orderObj.email = order.getCustomerEmail();
+  orderObj.external_id = order.getOrderNo();
+  orderObj.placed_at = order.getCreationDate().toISOString();
+  // orderObj.canceled_at
+  orderObj.payment_status = getPaymentStatus(order);
+  orderObj.fulfillment_status = getFulfillmentStatus(order);
+  orderObj.customer = CustomerModel.buildCustomerPayload(order, order.getCustomer());
+  var shippingAddress = order.getDefaultShipment().getShippingAddress();
+  orderObj.shipping_address = ShippingAddressModel.buildShippingAddressPayload(shippingAddress);
+  orderObj.order_items = buildOrderItemsPayload(order);
+  orderObj.order_adjustments = [];
+  orderObj.order_adjustments.push(buildShippingAdjustmentsPayload(order));
+  orderObj.transactions = buildTransactionsPayload(order);
+  orderObj.shield_selected = getShieldSelection(order);
+  orderObj.green_selected = getGreenSelection(order);
+
+  return orderObj;
 }
 
 module.exports = {
