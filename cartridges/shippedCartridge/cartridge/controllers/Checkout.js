@@ -20,7 +20,7 @@ server.prepend('Begin', function (req, res, next) {
   var currentBasket = BasketMgr.getCurrentBasket();
 
   // remove any existing items first
-  removeShippedLineItems(currentBasket);
+  // removeShippedLineItems(currentBasket);
   removeShippedOrderPriceAdjustment(currentBasket)
 
   // add relevant items
