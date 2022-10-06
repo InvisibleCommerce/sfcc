@@ -2,6 +2,8 @@
 
 var base = module.superModule;
 var formatMoney = require('dw/util/StringUtils').formatMoney;
+var shippedConstants = require('~/cartridge/scripts/shipped/constants');
+var Money = require('dw/value/Money');
 
 /**
  * Gets the order discount amount by subtracting the basket's total including the discount from
@@ -15,10 +17,12 @@ function getOrderLevelDiscountTotal(lineItemContainer) {
   var orderDiscount = totalExcludingOrderDiscount.subtract(totalIncludingOrderDiscount);
 
   // SHIPPED EXTENSION START
-  var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID('shipped-shield');
-  if (!empty(shippedPriceAdjustment)) {
+  shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
+    var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID(shippedId);
+    if (empty(shippedPriceAdjustment)) return;
+
     orderDiscount = orderDiscount.add(shippedPriceAdjustment.getPrice());
-  }
+  });
   // SHIPPED EXTENSION END
 
   return {
@@ -39,19 +43,19 @@ function totals(lineItemContainer) {
   if (lineItemContainer) {
     this.orderLevelDiscountTotal = getOrderLevelDiscountTotal(lineItemContainer);
 
-    var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID('shipped-shield');
-    if (empty(shippedPriceAdjustment)) {
-      this.shippedTotal = {
-        value: 0,
-        formatted: '-'
-      };
-    } else {
-      var shippedTotal = shippedPriceAdjustment.getPrice();
-      this.shippedTotal = {
-        value: shippedTotal.value,
-        formatted: formatMoney(shippedTotal)
-      };
-    }
+    var shippedTotal = 0;
+    shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
+      var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID(shippedId);
+      if (empty(shippedPriceAdjustment)) return;
+
+      shippedTotal += shippedPriceAdjustment.getPriceValue();
+    });
+
+    var shippedTotalMoney = new Money(shippedTotal, lineItemContainer.getCurrencyCode());
+    this.shippedTotal = {
+      value: shippedTotalMoney.value,
+      formatted: formatMoney(shippedTotalMoney)
+    };
   } else {
     this.shippedTotal = '-';
   }

@@ -6,6 +6,7 @@ var ShippingAddressModel = require('~/cartridge/scripts/shipped/models/shippingA
 var CustomerModel = require('~/cartridge/scripts/shipped/models/customerModel');
 var TransactionModel = require('~/cartridge/scripts/shipped/models/transactionModel');
 var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/models/shippingAdjustmentModel');
+var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 
 function buildOrderPayload(order) {
   var orderObj = {};
@@ -89,28 +90,16 @@ function buildOrderItemsPayload(order) {
 
 function getShieldSelection(order) {
   // this checks for order-level price adjustment method
-  var shieldPriceAdjustment = order.getPriceAdjustmentByPromotionID('shipped-shield');
-  if (!empty(shieldPriceAdjustment)) return true;
-
-  // this checks for product-level price adjustment method
-  var orderItems = order.getAllProductLineItems();
-  orderItems.toArray().some(function (orderItem) {
-    return OrderItemModel.isShield(orderItem);
-  });
+  var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_SHIELD_ID);
+  if (!empty(priceAdjustment)) return true;
 
   return false;
 }
 
 function getGreenSelection(order) {
   // this checks for order-level price adjustment method
-  var greenPriceAdjustment = order.getPriceAdjustmentByPromotionID('shipped-green');
-  if (!empty(greenPriceAdjustment)) return true;
-
-  // this checks for product-level price adjustment method
-  var orderItems = order.getAllProductLineItems();
-  orderItems.toArray().some(function (orderItem) {
-    return OrderItemModel.isGreen(orderItem);
-  });
+  var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_GREEN_ID);
+  if (!empty(priceAdjustment)) return true;
 
   return false;
 }

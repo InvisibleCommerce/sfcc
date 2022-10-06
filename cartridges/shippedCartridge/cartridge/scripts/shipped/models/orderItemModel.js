@@ -15,7 +15,7 @@ function buildOrderItemPayload(productLineItem) {
   orderItemObj.unit_price = getUnitPrice(productLineItem);
   orderItemObj.discount = 0;
   orderItemObj.tax = getTax(productLineItem);
-  orderItemObj.product_type = getProductType(product);
+  orderItemObj.product_type = 'regular';
 
   return orderItemObj;
 }
@@ -58,34 +58,6 @@ function getVariantID(product) {
   return product.getID();
 }
 
-function getProductType(product) {
-  if (product.getID().includes('shipped-shield')) {
-    return 'insurance';
-  }
-
-  if (product.getID().includes('shipped-green')) {
-    return 'carbon';
-  }
-
-  return 'regular';
-}
-
-function isShield(productLineItem) {
-  var product = productLineItem.getProduct()
-  if (empty(product)) return;
-
-  return getProductType(product) == 'insurance';
-}
-
-function isGreen(productLineItem) {
-  var product = productLineItem.getProduct()
-  if (empty(product)) return;
-
-  return getProductType(product) == 'carbon';
-}
-
 module.exports = {
-  buildOrderItemPayload: buildOrderItemPayload,
-  isShield: isShield,
-  isGreen: isGreen
+  buildOrderItemPayload: buildOrderItemPayload
 };
