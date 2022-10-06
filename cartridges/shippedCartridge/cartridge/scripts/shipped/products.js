@@ -2,7 +2,7 @@
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var webService = require('~/cartridge/scripts/services/shippedRest');
-var ProductModel = require('~/cartridge/scripts/shipped/productModel');
+var ProductModel = require('~/cartridge/scripts/shipped/models/productModel');
 
 function syncMasterProduct(product) {
   if (product.isVariant()) return;

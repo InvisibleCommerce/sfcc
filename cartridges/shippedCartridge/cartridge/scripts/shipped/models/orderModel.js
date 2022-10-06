@@ -1,11 +1,11 @@
 'use strict';
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var OrderItemModel = require('~/cartridge/scripts/shipped/orderItemModel');
-var ShippingAddressModel = require('~/cartridge/scripts/shipped/shippingAddressModel');
-var CustomerModel = require('~/cartridge/scripts/shipped/customerModel');
-var TransactionModel = require('~/cartridge/scripts/shipped/transactionModel');
-var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/shippingAdjustmentModel');
+var OrderItemModel = require('~/cartridge/scripts/shipped/models/orderItemModel');
+var ShippingAddressModel = require('~/cartridge/scripts/shipped/models/shippingAddressModel');
+var CustomerModel = require('~/cartridge/scripts/shipped/models/customerModel');
+var TransactionModel = require('~/cartridge/scripts/shipped/models/transactionModel');
+var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/models/shippingAdjustmentModel');
 
 function buildOrderPayload(order) {
   var orderObj = {};

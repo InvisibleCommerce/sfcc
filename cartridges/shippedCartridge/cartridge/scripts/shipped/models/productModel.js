@@ -1,7 +1,7 @@
 'use strict';
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var VariantModel = require('~/cartridge/scripts/shipped/variantModel');
+var VariantModel = require('~/cartridge/scripts/shipped/models/variantModel');
 
 function buildProductPayload(product) {
   var category = !empty(product.getPrimaryCategory()) ? product.getPrimaryCategory().getDisplayName() : '';

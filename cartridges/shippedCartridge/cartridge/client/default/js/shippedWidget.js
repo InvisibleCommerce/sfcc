@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function(data) {
       if (shouldRefresh) {
-        $('.quantity-form > .quantity').filter(function (index, selector) {
-          selector.dataset.pid !== 'shipped-shield' && selector.dataset.pid !== 'shipped-green'
-        }).first().change();
+        $('.quantity-form > .quantity').first().change();
       }
     });
   }

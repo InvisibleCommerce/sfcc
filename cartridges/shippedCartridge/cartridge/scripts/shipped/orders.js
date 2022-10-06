@@ -2,7 +2,7 @@
 
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var webService = require('~/cartridge/scripts/services/shippedRest');
-var OrderModel = require('~/cartridge/scripts/shipped/orderModel');
+var OrderModel = require('~/cartridge/scripts/shipped/models/orderModel');
 var products = require('~/cartridge/scripts/shipped/products');
 
 function syncOrder(order) {
