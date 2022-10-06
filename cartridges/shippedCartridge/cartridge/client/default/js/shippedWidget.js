@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function shouldRefreshUI(existingDetails, details) {
     if (existingDetails === undefined) return true;
+    if (existingDetails.isSelected == details.isSelected && details.isSelected === false) return false;
     if (existingDetails.totalFee === details.totalFee && existingDetails.isSelected == details.isSelected) return false;
 
     return true;
