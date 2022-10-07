@@ -9,12 +9,12 @@
 </div>
 
 <!--- SHIPPED EXTENSION START --->
-<div class="row leading-lines <isif condition="${pdict.order.totals.shippedTotal.value === 0}">hide-order-discount</isif>">
+<div class="row leading-lines shipped-fees <isif condition="${pdict.order.totals.shippedTotal.value === 0}">hide-order-discount</isif>">
     <div class="col-6 start-lines">
         <p class="order-receipt-label"><span>Shipped Fees</span></p>
     </div>
     <div class="col-6 end-lines">
-        <p class="text-right"><span>${pdict.order.totals.shippedTotal.formatted}</span></p>
+        <p class="text-right"><span class="shipped-fees-total">${pdict.order.totals.shippedTotal.formatted}</span></p>
     </div>
 </div>
 <!--- SHIPPED EXTENSION END --->

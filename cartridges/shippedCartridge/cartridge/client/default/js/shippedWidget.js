@@ -1,3 +1,5 @@
+'use strict';
+
 document.addEventListener('DOMContentLoaded', function () {
   const shippedWidget = new Shipped.Widget(shippedConfig);
 
@@ -43,7 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function(data) {
       if (shouldRefresh) {
-        $('.quantity-form > .quantity').first().change();
+        console.log({ order: data.order, customer: data.customer });
+        $('body').trigger(
+          'checkout:updateCheckoutView', { order: data.order, customer: data.customer }
+        );
+        // $('.quantity-form > .quantity').first().change();
       }
     });
   }
