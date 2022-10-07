@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
           'checkout:updateCheckoutView', { order: data.order, customer: data.customer }
         );
         // for cart page
-        // $('.quantity-form > .quantity').first().change();
+        $('.quantity-form > .quantity').first().change();
       }
     });
   }
@@ -61,22 +61,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // update order value when cart items change
   // only applicable on cart page
-  // $('body').on('cart:update promotion:success', function(e, data) {
-  //   var totals;
-  //   if (data.basket === undefined) {
-  //     totals = data.totals;
-  //   } else {
-  //     totals = data.basket.totals;
-  //   }
-  //   if (totals === undefined) return;
-  //
-  //   console.log('change total?', existingSubtotal !== totals.subTotal);
-  //   if (existingSubtotal !== totals.subTotal) {
-  //     shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
-  //   }
-  //
-  //   existingSubtotal = totals.subTotal;
-  // });
+  $('body').on('cart:update promotion:success', function(e, data) {
+    var totals;
+    if (data.basket === undefined) {
+      totals = data.totals;
+    } else {
+      totals = data.basket.totals;
+    }
+    if (totals === undefined) return;
+
+    console.log('change total?', existingSubtotal !== totals.subTotal);
+    if (existingSubtotal !== totals.subTotal) {
+      shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
+    }
+
+    existingSubtotal = totals.subTotal;
+  });
 
   shippedWidget.onChange(details => handleShippedChange(details));
 });
