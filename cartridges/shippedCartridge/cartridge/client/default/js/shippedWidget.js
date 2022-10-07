@@ -1,3 +1,5 @@
+'use strict';
+
 document.addEventListener('DOMContentLoaded', function () {
   const shippedWidget = new Shipped.Widget(shippedConfig);
 
@@ -43,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function(data) {
       if (shouldRefresh) {
+        // for checkout page
+        $('body').trigger(
+          'checkout:updateCheckoutView', { order: data.order, customer: data.customer }
+        );
+        // for cart page
         $('.quantity-form > .quantity').first().change();
       }
     });
@@ -53,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
   shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
 
   // update order value when cart items change
+  // only applicable on cart page
   $('body').on('cart:update promotion:success', function(e, data) {
     var totals;
     if (data.basket === undefined) {
@@ -64,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('change total?', existingSubtotal !== totals.subTotal);
     if (existingSubtotal !== totals.subTotal) {
-
       shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
     }
 
