@@ -14,6 +14,8 @@ function buildCheckoutResponse(currentBasket, req, res) {
   var currentLocale = Locale.getLocale(req.locale.id);
   var accountModel = new AccountModel(req.currentCustomer);
 
+  COHelpers.recalculateBasket(currentBasket);
+
   var orderModel = new OrderModel(
     currentBasket,
     {

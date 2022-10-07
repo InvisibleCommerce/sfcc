@@ -69,5 +69,6 @@ function ensureCorrectShippedLineItems(lineItemsContainer, shippedSelected) {
 }
 
 module.exports = {
-  ensureCorrectShippedLineItems: ensureCorrectShippedLineItems
+  ensureCorrectShippedLineItems: ensureCorrectShippedLineItems,
+  removeShippedOrderPriceAdjustments: removeShippedOrderPriceAdjustments
 };

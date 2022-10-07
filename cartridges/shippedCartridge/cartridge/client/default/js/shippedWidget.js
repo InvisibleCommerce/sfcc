@@ -45,10 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return response.json();
     }).then(function(data) {
       if (shouldRefresh) {
-        console.log({ order: data.order, customer: data.customer });
+        // for checkout page
         $('body').trigger(
           'checkout:updateCheckoutView', { order: data.order, customer: data.customer }
         );
+        // for cart page
         // $('.quantity-form > .quantity').first().change();
       }
     });
@@ -59,23 +60,23 @@ document.addEventListener('DOMContentLoaded', function () {
   shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
 
   // update order value when cart items change
-  $('body').on('cart:update promotion:success', function(e, data) {
-    var totals;
-    if (data.basket === undefined) {
-      totals = data.totals;
-    } else {
-      totals = data.basket.totals;
-    }
-    if (totals === undefined) return;
-
-    console.log('change total?', existingSubtotal !== totals.subTotal);
-    if (existingSubtotal !== totals.subTotal) {
-
-      shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
-    }
-
-    existingSubtotal = totals.subTotal;
-  });
+  // only applicable on cart page
+  // $('body').on('cart:update promotion:success', function(e, data) {
+  //   var totals;
+  //   if (data.basket === undefined) {
+  //     totals = data.totals;
+  //   } else {
+  //     totals = data.basket.totals;
+  //   }
+  //   if (totals === undefined) return;
+  //
+  //   console.log('change total?', existingSubtotal !== totals.subTotal);
+  //   if (existingSubtotal !== totals.subTotal) {
+  //     shippedWidget.updateOrderValue(subtotalValue(totals.subTotal));
+  //   }
+  //
+  //   existingSubtotal = totals.subTotal;
+  // });
 
   shippedWidget.onChange(details => handleShippedChange(details));
 });
