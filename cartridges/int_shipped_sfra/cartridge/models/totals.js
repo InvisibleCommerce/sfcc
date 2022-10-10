@@ -2,7 +2,7 @@
 
 var base = module.superModule;
 var formatMoney = require('dw/util/StringUtils').formatMoney;
-var shippedConstants = require('~/cartridge/scripts/shipped/constants');
+var shippedConstants = require('int_shipped/cartridge/scripts/shipped/constants');
 var Money = require('dw/value/Money');
 
 /**

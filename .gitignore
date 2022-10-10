@@ -2,8 +2,8 @@ node_modules/
 dw.json
 .idea/
 .DS_Store
-cartridges/shippedCartridge/cartridge/static/default/css/
-cartridges/shippedCartridge/cartridge/static/default/js/
+cartridges/int_shipped/cartridge/static/default/css/
+cartridges/int_shipped_sfra/cartridge/static/default/js/
 cartridges/bm_returnly/
 cartridges/int_cloudinary/
 cartridges/int_cloudinary_sfra/

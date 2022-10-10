@@ -2,7 +2,7 @@
 
 var server = require('server');
 var OrderMgr = require('dw/order/OrderMgr');
-var shippedHelpers = require('~/cartridge/scripts/helpers/shippedHelpers');
+var shippedHelpers = require('int_shipped/cartridge/scripts/helpers/shippedHelpers');
 var Site = require('dw/system/Site').getCurrent();
 
 var page = module.superModule;
