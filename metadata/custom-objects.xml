@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-type type-id="shippedOrderQueue">
+        <display-name xml:lang="x-default">Shipped Order Queue</display-name>
+        <description xml:lang="x-default">Queue that holds orders for Shipped Orders sync Job</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <retention-days>90</retention-days>
+        <key-definition attribute-id="orderNo">
+            <type>string</type>
+            <min-length>0</min-length>
+        </key-definition>
+    </custom-type>
+
+</metadata>

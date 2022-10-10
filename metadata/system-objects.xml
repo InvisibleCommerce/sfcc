@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="shippedAppearance">
+                <display-name xml:lang="x-default">Widget Appearance</display-name>
+                <description xml:lang="x-default">Change widget appearance based on light or dark theme. Setting it as ‘auto’ will detect if it's a light or dark theme and show the appropriate widget appearance.</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Auto</display>
+                        <value>auto</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Light</display>
+                        <value>light</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Dark</display>
+                        <value>dark</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedEnvironment">
+                <display-name xml:lang="x-default">Environment</display-name>
+                <description xml:lang="x-default">”Staging” and “Production” are 2 separate environments. Perform all development against the “staging”, do not send production/sensitive data to it. More info: https://api-docs.shippedsuite.com/docs</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">Production</display>
+                        <value>production</value>
+                    </value-definition>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Staging</display>
+                        <value>staging</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedGlobalSwitch">
+                <display-name xml:lang="x-default">Enable Shipped</display-name>
+                <description xml:lang="x-default">Global switch to turn Shipped functionality on/off</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedGreen">
+                <display-name xml:lang="x-default">Shipped Green</display-name>
+                <description xml:lang="x-default">Enable Shipped Green carbon neutral shipments.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedIsInformational">
+                <display-name xml:lang="x-default">For Merchant Paid (Advanced)</display-name>
+                <description xml:lang="x-default">Select “Yes” to only show information about Shipped; customers won't be able to add/remove Shipped. Select "No" if you only want to pay for Shipped when a customer declines.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedIsMandatory">
+                <display-name xml:lang="x-default">Mandatory Opt-In (Advanced)</display-name>
+                <description xml:lang="x-default">Select “Yes” if customers are required to add Shipped Shield/Green; they will not be able to remove Shipped Shield/Green from their orders.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedIsOffByDefault">
+                <display-name xml:lang="x-default">Widget Default State</display-name>
+                <description xml:lang="x-default">The recommended widget default state is opt-in; meaning Shipped is automatically added to the orders. Select “Yes” to require the customer to manually add Shipped to order.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedOrderSync">
+                <display-name xml:lang="x-default">Enable Order Sync</display-name>
+                <description xml:lang="x-default">Enable Salesforce Commerce Cloud order sync.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>true</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedPublishableToken">
+                <display-name xml:lang="x-default">Public API Key</display-name>
+                <description xml:lang="x-default"></description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedShield">
+                <display-name xml:lang="x-default">Shipped Shield</display-name>
+                <description xml:lang="x-default">Enable Shipped Shield package assurance.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>true</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="shippedWidgetLocation">
+                <display-name xml:lang="x-default">Widget Location</display-name>
+                <description xml:lang="x-default">Select if you would like the Shipped widget to be inserted. Checkout page is recommended so Shipped offer is shown to all customers, including customers that skipped the Cart page.</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Checkout (Recommended)</display>
+                        <value>checkout</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Cart</display>
+                        <value>cart</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="Shipped Configuration">
+                <display-name xml:lang="x-default">Shipped Configuration</display-name>
+                <attribute attribute-id="shippedGlobalSwitch"/>
+                <attribute attribute-id="shippedEnvironment"/>
+                <attribute attribute-id="shippedPublishableToken"/>
+                <attribute attribute-id="shippedShield"/>
+                <attribute attribute-id="shippedGreen"/>
+                <attribute attribute-id="shippedAppearance"/>
+                <attribute attribute-id="shippedIsOffByDefault"/>
+                <attribute attribute-id="shippedIsMandatory"/>
+                <attribute attribute-id="shippedIsInformational"/>
+                <attribute attribute-id="shippedOrderSync"/>
+                <attribute attribute-id="shippedWidgetLocation"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>
