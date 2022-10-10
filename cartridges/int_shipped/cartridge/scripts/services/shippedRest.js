@@ -38,7 +38,7 @@ function createRequestConfiguration(action) {
 }
 
 function createServiceCall(configObj) {
-  return LocalServiceRegistry.createService('bm_shipped.http.auth', {
+  return LocalServiceRegistry.createService('int_shipped.http.auth', {
     createRequest: function (service, requestData) {
       var credential = service.configuration.credential;
       var path = configObj.api_version + '/' + configObj.endpoint;
