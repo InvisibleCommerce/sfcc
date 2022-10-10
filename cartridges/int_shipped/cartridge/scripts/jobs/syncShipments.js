@@ -1,3 +1,5 @@
+// UNUSED - CAME TO THE REALIZATION SHIPMENT DATA WILL _HAVE_ TO COME FROM OMS
+
 'use strict';
 
 var OrderMgr = require('dw/order/OrderMgr');
