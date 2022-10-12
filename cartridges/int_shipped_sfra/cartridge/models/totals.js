@@ -40,6 +40,7 @@ function getOrderLevelDiscountTotal(lineItemContainer) {
 function totals(lineItemContainer) {
   base.call(this, lineItemContainer);
 
+  // SHIPPED EXTENSION START
   if (lineItemContainer) {
     this.orderLevelDiscountTotal = getOrderLevelDiscountTotal(lineItemContainer);
 
@@ -59,6 +60,7 @@ function totals(lineItemContainer) {
   } else {
     this.shippedTotal = '-';
   }
+  // SHIPPED EXTENSION END
 }
 
 totals.prototype = Object.create(base.prototype);
