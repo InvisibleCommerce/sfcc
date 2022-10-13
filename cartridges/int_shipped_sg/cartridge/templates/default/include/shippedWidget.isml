@@ -1,0 +1,104 @@
+<isif condition="${dw.system.Site.current.preferences.custom.shippedGlobalSwitch}">
+  <script>
+    shippedConfig = {
+      publicKey: "${dw.system.Site.current.preferences.custom.shippedPublishableToken}",
+      widgetSelector: '.shipped-widget',
+      isShield: ${dw.system.Site.current.preferences.custom.shippedShield},
+      isGreen: ${dw.system.Site.current.preferences.custom.shippedGreen},
+      isOffByDefault: ${dw.system.Site.current.preferences.custom.shippedIsOffByDefault},
+      isInformational: ${dw.system.Site.current.preferences.custom.shippedIsInformational},
+      isMandatory: ${dw.system.Site.current.preferences.custom.shippedIsMandatory},
+      appearance: '${dw.system.Site.current.preferences.custom.shippedAppearance && dw.system.Site.current.preferences.custom.shippedAppearance.value}',
+    }
+  </script>
+
+  <isif condition="${dw.system.Site.current.preferences.custom.shippedEnvironment && dw.system.Site.current.preferences.custom.shippedEnvironment.value == 'production'}">
+    <script src="https://js.shippedsuite.com/api/widget.js"></script>
+  <iselse>
+    <script src="https://js-staging.shippedsuite.com/api/widget.js"></script>
+  </isif>
+
+  <isscript>
+    var shippedConstants = require('int_shipped/cartridge/scripts/shipped/constants');
+    var merchTotalExclOrderDiscounts : dw.value.Money = pdict.Basket.getAdjustedMerchandizeTotalPrice(false);
+    var merchTotalInclOrderDiscounts : dw.value.Money = pdict.Basket.getAdjustedMerchandizeTotalPrice(true);
+    var orderDiscount : dw.value.Money = merchTotalExclOrderDiscounts.subtract( merchTotalInclOrderDiscounts );
+    var realOrderDiscount = orderDiscount;
+    shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
+      var shippedPriceAdjustment = pdict.Basket.getPriceAdjustmentByPromotionID(shippedId);
+      if (empty(shippedPriceAdjustment)) return;
+
+      realOrderDiscount = realOrderDiscount.add(shippedPriceAdjustment.getPrice());
+    });
+    var shippedFee = realOrderDiscount.subtract(orderDiscount);
+  </isscript>
+
+  <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'checkout'}">
+    <div class="shipped-widget" data-subtotal="${pdict.order.totals.subTotal}"></div>
+  </isif>
+  <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'cart'}">
+    <div class="shipped-widget" data-subtotal="${pdict.Basket.getAdjustedMerchandizeTotalPrice(false).value}" data-current-fee="${shippedFee.value}"></div>
+  </isif>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      const shippedWidget = new Shipped.Widget(shippedConfig);
+
+      function subtotalValue(subtotal) {
+        if (subtotal === null || subtotal === undefined) return 0;
+
+        return parseFloat(subtotal.replace('$', '').replace(',', ''));
+      }
+
+      function currentFee() {
+        return subtotalValue(widget.dataset.currentFee)
+      }
+
+      function currentlySelected() {
+        return subtotalValue(widget.dataset.currentFee) !== 0;
+      }
+
+      function shouldRefreshUI(details) {
+        if (currentlySelected() !== details.isSelected) return true;
+        if (details.isSelected && (currentFee() !== subtotalValue(details.totalFee))) return true;
+
+        return false;
+      }
+
+      function handleShippedChange(details) {
+        let path;
+        if (details.isSelected) {
+          // add shield
+          path = '/on/demandware.store/Sites-SiteGenesis-Site/default/ShippedSuite-Add'
+          console.log('adding...')
+        } else {
+          // remove shield
+          path = '/on/demandware.store/Sites-SiteGenesis-Site/default/ShippedSuite-Remove'
+          console.log('removing...')
+        }
+
+        var shouldRefresh = shouldRefreshUI(details);
+        console.log('should refresh UI?', shouldRefresh);
+
+        fetch(path, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+          },
+          mode: 'same-origin',
+        }).then(function(response) {
+          return response.json();
+        }).then(function(data) {
+          if (shouldRefresh) {
+            window.location.reload();
+          }
+        });
+      }
+
+      var widget = document.getElementsByClassName('shipped-widget')[0];
+      var existingSubtotal = widget.dataset.subtotal;
+      shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
+      shippedWidget.onChange(details => handleShippedChange(details));
+    });
+  </script>
+</isif>
