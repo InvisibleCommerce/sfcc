@@ -96,7 +96,6 @@
       }
 
       var widget = document.getElementsByClassName('shipped-widget')[0];
-      var existingSubtotal = widget.dataset.subtotal;
       shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
       shippedWidget.onChange(details => handleShippedChange(details));
     });
