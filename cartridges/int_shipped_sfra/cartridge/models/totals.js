@@ -17,12 +17,9 @@ function getOrderLevelDiscountTotal(lineItemContainer) {
   var orderDiscount = totalExcludingOrderDiscount.subtract(totalIncludingOrderDiscount);
 
   // SHIPPED EXTENSION START
-  shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
-    var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID(shippedId);
-    if (empty(shippedPriceAdjustment)) return;
-
-    orderDiscount = orderDiscount.add(shippedPriceAdjustment.getPrice());
-  });
+  var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
+  var shippedFee = shippedBasketHelpers.calculateCurrentTotalShippedFee(lineItemContainer);
+  orderDiscount = orderDiscount.add(shippedFee);
   // SHIPPED EXTENSION END
 
   return {

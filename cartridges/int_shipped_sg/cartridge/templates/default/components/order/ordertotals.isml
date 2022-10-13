@@ -30,16 +30,9 @@
 				var merchTotalInclOrderDiscounts : dw.value.Money = LineItemCtnr.getAdjustedMerchandizeTotalPrice(true);
 				var orderDiscount : dw.value.Money = merchTotalExclOrderDiscounts.subtract( merchTotalInclOrderDiscounts );
 				// SHIPPED EXTENSION START
-				var shippedConstants = require('int_shipped/cartridge/scripts/shipped/constants');
-				var realOrderDiscount = orderDiscount;
-				shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
-					var shippedPriceAdjustment = LineItemCtnr.getPriceAdjustmentByPromotionID(shippedId);
-					if (empty(shippedPriceAdjustment)) return;
-
-					realOrderDiscount = realOrderDiscount.add(shippedPriceAdjustment.getPrice());
-				});
-				var shippedFee = realOrderDiscount.subtract(orderDiscount);
-				orderDiscount = realOrderDiscount;
+				var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
+				var shippedFee = shippedBasketHelpers.calculateCurrentTotalShippedFee(LineItemCtnr);
+				orderDiscount = orderDiscount.add(shippedFee);
 				// SHIPPED EXTENSION END
 			</isscript>
 			<isif condition="${!empty(orderDiscount) && orderDiscount.value > 0.0}">

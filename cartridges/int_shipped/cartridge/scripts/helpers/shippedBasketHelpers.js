@@ -4,7 +4,20 @@ var Transaction = require('dw/system/Transaction');
 var webService = require('~/cartridge/scripts/services/shippedRest');
 var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 var Site = require('dw/system/Site').getCurrent();
+var Money = require('dw/value/Money');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
+
+function calculateCurrentTotalShippedFee(currentBasket) {
+  var shippedTotal = new Money(0, currentBasket.getCurrencyCode());
+  shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
+    var shippedPriceAdjustment = currentBasket.getPriceAdjustmentByPromotionID(shippedId);
+    if (empty(shippedPriceAdjustment)) return;
+
+    shippedTotal = shippedTotal.add(shippedPriceAdjustment.getPrice());
+  });
+
+  return shippedTotal;
+}
 
 function calculateTotalPrice(currentBasket) {
   var basketTotal = currentBasket.merchandizeTotalNetPrice.value;
@@ -69,6 +82,7 @@ function ensureCorrectShippedLineItems(lineItemsContainer, shippedSelected) {
 }
 
 module.exports = {
+  calculateCurrentTotalShippedFee: calculateCurrentTotalShippedFee,
   ensureCorrectShippedLineItems: ensureCorrectShippedLineItems,
   removeShippedOrderPriceAdjustments: removeShippedOrderPriceAdjustments
 };
