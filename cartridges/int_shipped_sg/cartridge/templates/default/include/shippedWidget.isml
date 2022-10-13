@@ -34,7 +34,7 @@
   </isscript>
 
   <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'checkout'}">
-    <div class="shipped-widget" data-subtotal="${pdict.order.totals.subTotal}"></div>
+    <div class="shipped-widget" data-subtotal="${pdict.Basket.getAdjustedMerchandizeTotalPrice(false).value}" data-current-fee="false"></div>
   </isif>
   <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'cart'}">
     <div class="shipped-widget" data-subtotal="${pdict.Basket.getAdjustedMerchandizeTotalPrice(false).value}" data-current-fee="${shippedFee.value}"></div>
@@ -59,6 +59,7 @@
       }
 
       function shouldRefreshUI(details) {
+        if (widget.dataset.currentFee == 'false') return false;
         if (currentlySelected() !== details.isSelected) return true;
         if (details.isSelected && (currentFee() !== subtotalValue(details.totalFee))) return true;
 
