@@ -3,7 +3,7 @@
 var base = module.superModule;
 var formatMoney = require('dw/util/StringUtils').formatMoney;
 var shippedConstants = require('int_shipped/cartridge/scripts/shipped/constants');
-var Money = require('dw/value/Money');
+var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
 
 /**
  * Gets the order discount amount by subtracting the basket's total including the discount from
@@ -41,18 +41,10 @@ function totals(lineItemContainer) {
   if (lineItemContainer) {
     this.orderLevelDiscountTotal = getOrderLevelDiscountTotal(lineItemContainer);
 
-    var shippedTotal = 0;
-    shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
-      var shippedPriceAdjustment = lineItemContainer.getPriceAdjustmentByPromotionID(shippedId);
-      if (empty(shippedPriceAdjustment)) return;
-
-      shippedTotal += shippedPriceAdjustment.getPriceValue();
-    });
-
-    var shippedTotalMoney = new Money(shippedTotal, lineItemContainer.getCurrencyCode());
+    var shippedFee = shippedBasketHelpers.calculateCurrentTotalShippedFee(lineItemContainer);
     this.shippedTotal = {
-      value: shippedTotalMoney.value,
-      formatted: formatMoney(shippedTotalMoney)
+      value: shippedFee.value,
+      formatted: formatMoney(shippedFee)
     };
   } else {
     this.shippedTotal = '-';
