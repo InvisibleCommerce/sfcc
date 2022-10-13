@@ -2,7 +2,6 @@
 
 var base = module.superModule;
 var formatMoney = require('dw/util/StringUtils').formatMoney;
-var shippedConstants = require('int_shipped/cartridge/scripts/shipped/constants');
 var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
 
 /**
@@ -17,7 +16,6 @@ function getOrderLevelDiscountTotal(lineItemContainer) {
   var orderDiscount = totalExcludingOrderDiscount.subtract(totalIncludingOrderDiscount);
 
   // SHIPPED EXTENSION START
-  var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
   var shippedFee = shippedBasketHelpers.calculateCurrentTotalShippedFee(lineItemContainer);
   orderDiscount = orderDiscount.add(shippedFee);
   // SHIPPED EXTENSION END
