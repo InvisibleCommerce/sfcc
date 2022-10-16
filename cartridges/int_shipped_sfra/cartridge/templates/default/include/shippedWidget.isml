@@ -1,32 +1,22 @@
 <isif condition="${dw.system.Site.current.preferences.custom.shippedGlobalSwitch}">
-  <script>
-    shippedConfig = {
-      publicKey: "${dw.system.Site.current.preferences.custom.shippedPublishableToken}",
-      widgetSelector: '.shipped-widget',
-      isShield: ${dw.system.Site.current.preferences.custom.shippedShield},
-      isGreen: ${dw.system.Site.current.preferences.custom.shippedGreen},
-      isOffByDefault: ${dw.system.Site.current.preferences.custom.shippedIsOffByDefault},
-      isInformational: ${dw.system.Site.current.preferences.custom.shippedIsInformational},
-      isMandatory: ${dw.system.Site.current.preferences.custom.shippedIsMandatory},
-      appearance: '${dw.system.Site.current.preferences.custom.shippedAppearance && dw.system.Site.current.preferences.custom.shippedAppearance.value}',
-    }
-  </script>
-
-  <isif condition="${dw.system.Site.current.preferences.custom.shippedEnvironment && dw.system.Site.current.preferences.custom.shippedEnvironment.value == 'production'}">
-    <script src="https://js.shippedsuite.com/api/widget.js"></script>
-  <iselse>
-    <script src="https://js-staging.shippedsuite.com/api/widget.js"></script>
-  </isif>
+  <isinclude template="include/shippedWidgetShared"></isinclude>
 
   <isscript>
     var assets = require('*/cartridge/scripts/assets.js');
-    assets.addJs('/js/shippedWidget.js');
+    assets.addJs('/js/shippedWidgetSFRA.js');
   </isscript>
 
   <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'checkout'}">
-    <div class="shipped-widget" data-subtotal="${pdict.order.totals.subTotal}"></div>
+    <isset name="shippedSubtotal" value="${pdict.order.totals.subTotal}" scope="page"></isset>
   </isif>
   <isif condition="${dw.system.Site.current.preferences.custom.shippedWidgetLocation && dw.system.Site.current.preferences.custom.shippedWidgetLocation.value == 'cart'}">
-    <div class="shipped-widget" data-subtotal="${pdict.totals.subTotal}"></div>
+    <isset name="shippedSubtotal" value="${pdict.totals.subTotal}" scope="page"></isset>
   </isif>
+
+  <div
+      class="shipped-widget"
+      data-add-url="${URLUtils.url('ShippedSuite-Add').toString()}"
+      data-remove-url="${URLUtils.url('ShippedSuite-Remove').toString()}"
+      data-subtotal="${shippedSubtotal}"
+  ></div>
 </isif>

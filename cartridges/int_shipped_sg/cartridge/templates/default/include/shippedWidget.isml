@@ -1,0 +1,18 @@
+<isif condition="${dw.system.Site.current.preferences.custom.shippedGlobalSwitch}">
+  <isinclude template="include/shippedWidgetShared"></isinclude>
+
+  <isscript>
+    var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippedBasketHelpers');
+    var shippedFee = shippedBasketHelpers.calculateCurrentTotalShippedFee(pdict.Basket);
+  </isscript>
+
+  <div
+      class="shipped-widget"
+      data-add-url="${URLUtils.url('ShippedSuite-Add').toString()}"
+      data-remove-url="${URLUtils.url('ShippedSuite-Remove').toString()}"
+      data-subtotal="${pdict.Basket.getAdjustedMerchandizeTotalPrice(false).value}"
+      data-current-fee="${shippedFee.value}">
+  </div>
+
+  <script src="${URLUtils.staticURL('js/shippedWidgetSG.js')}"></script>
+</isif>
