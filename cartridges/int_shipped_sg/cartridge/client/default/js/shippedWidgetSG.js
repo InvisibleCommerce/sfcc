@@ -22,6 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function refreshUI(data) {
-    window.location.reload();
+    if (window.location.includes('/cart')) window.location.reload();
   }
 });
