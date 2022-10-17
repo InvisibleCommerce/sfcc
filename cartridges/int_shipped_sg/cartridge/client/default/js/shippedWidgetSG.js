@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function refreshUI(data) {
+    // don't reload on checkout page to prevent filled in info from being reset.
     if (window.location.includes('/cart')) window.location.reload();
   }
 });
