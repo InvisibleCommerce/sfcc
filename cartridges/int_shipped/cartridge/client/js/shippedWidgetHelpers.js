@@ -13,15 +13,12 @@ function handleShippedChange(widget, details, shouldRefreshUI, refreshUI) {
   if (details.isSelected) {
     // add shield
     path = widget.dataset.addUrl;
-    console.log('adding...')
   } else {
     // remove shield
     path = widget.dataset.removeUrl;
-    console.log('removing...')
   }
 
   var shouldRefresh = shouldRefreshUI(existingDetails, details, widget);
-  console.log('should refresh UI?', shouldRefresh);
   existingDetails = details;
 
   fetch(path, {

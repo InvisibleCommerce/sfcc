@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (totals === undefined) return;
 
-    console.log('change total?', existingSubtotal !== totals.subTotal);
     if (existingSubtotal !== totals.subTotal) {
       shippedWidget.updateOrderValue(shippedWidgetHelpers.subtotalValue(totals.subTotal));
     }
