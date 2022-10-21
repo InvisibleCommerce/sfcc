@@ -3,17 +3,18 @@
     <job job-id="Shipped Sync Orders" priority="0">
         <description/>
         <parameters/>
-        <flow>
-            <context site-id="RefArch"/>
-            <step step-id="syncOrders" type="ExecuteScriptModule" enforce-restart="false">
-                <description/>
-                <parameters>
-                    <parameter name="ExecuteScriptModule.Module">int_shipped/cartridge/scripts/jobs/syncOrders.js</parameter>
-                    <parameter name="ExecuteScriptModule.FunctionName">execute</parameter>
-                    <parameter name="ExecuteScriptModule.Transactional">false</parameter>
-                </parameters>
-            </step>
-        </flow>
+        <split sequential="false">
+            <contexts template-ref="template_24">
+                <context site-id="RefArch"/>
+                <context site-id="SiteGenesis"/>
+            </contexts>
+            <flow-template template-id="template_24">
+                <step step-id="syncOrders" type="custom.shipped.synchronizeOrders" enforce-restart="false">
+                    <description/>
+                    <parameters/>
+                </step>
+            </flow-template>
+        </split>
         <rules/>
         <triggers>
             <run-recurring enabled="true">
@@ -23,12 +24,12 @@
                     <interval>1m</interval>
                     <day-of-week>
                         <weekday>Thursday</weekday>
+                        <weekday>Monday</weekday>
+                        <weekday>Wednesday</weekday>
+                        <weekday>Saturday</weekday>
+                        <weekday>Tuesday</weekday>
                         <weekday>Friday</weekday>
                         <weekday>Sunday</weekday>
-                        <weekday>Saturday</weekday>
-                        <weekday>Wednesday</weekday>
-                        <weekday>Monday</weekday>
-                        <weekday>Tuesday</weekday>
                     </day-of-week>
                 </recurrence>
             </run-recurring>
@@ -38,17 +39,18 @@
     <job job-id="Shipped Sync Products" priority="0">
         <description/>
         <parameters/>
-        <flow>
-            <context site-id="RefArch"/>
-            <step step-id="syncProducts" type="ExecuteScriptModule" enforce-restart="false">
-                <description/>
-                <parameters>
-                    <parameter name="ExecuteScriptModule.Module">shippedCartridge/cartridge/scripts/jobs/syncProducts.js</parameter>
-                    <parameter name="ExecuteScriptModule.FunctionName">execute</parameter>
-                    <parameter name="ExecuteScriptModule.Transactional">false</parameter>
-                </parameters>
-            </step>
-        </flow>
+        <split sequential="false">
+            <contexts template-ref="template_25">
+                <context site-id="RefArch"/>
+                <context site-id="SiteGenesis"/>
+            </contexts>
+            <flow-template template-id="template_25">
+                <step step-id="syncOrders" type="custom.shipped.synchronizeProducts" enforce-restart="false">
+                    <description/>
+                    <parameters/>
+                </step>
+            </flow-template>
+        </split>
         <rules/>
         <triggers>
             <run-once enabled="false">

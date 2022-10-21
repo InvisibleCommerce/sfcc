@@ -1,0 +1,48 @@
+{
+  "step-types": {
+    "script-module-step": [
+      {
+        "@type-id": "custom.shipped.synchronizeOrders",
+        "@supports-parallel-execution": "false",
+        "@supports-site-context": "true",
+        "@supports-organization-context": "false",
+        "description": "Synchronize orders via the Shipped Suite API",
+        "module": "int_shipped/cartridge/scripts/jobs/syncOrders.js",
+        "function": "execute",
+        "transactional": "false",
+        "parameters": {
+          "parameters": []
+        },
+        "status-codes": {
+          "status": [
+            {
+              "@code": "OK",
+              "description": "Used when the step finished."
+            }
+          ]
+        }
+      },
+      {
+        "@type-id": "custom.shipped.synchronizeProducts",
+        "@supports-parallel-execution": "false",
+        "@supports-site-context": "true",
+        "@supports-organization-context": "false",
+        "description": "Synchronize product catalog via the Shipped Suite API",
+        "module": "int_shipped/cartridge/scripts/jobs/syncProducts.js",
+        "function": "execute",
+        "transactional": "false",
+        "parameters": {
+          "parameters": []
+        },
+        "status-codes": {
+          "status": [
+            {
+              "@code": "OK",
+              "description": "Used when the step finished."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
