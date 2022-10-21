@@ -4,6 +4,7 @@ var shippedWidgetHelpers = require('../../../../../int_shipped/cartridge/client/
 
 document.addEventListener('DOMContentLoaded', function () {
   const shippedWidget = shippedWidgetHelpers.initializeWidget(shouldRefreshUI, refreshUI);
+  const cartPath = document.getElementsByClassName('shipped-widget')[0].dataset.cartPath;
 
   function currentFee(widget) {
     return shippedWidgetHelpers.subtotalValue(widget.dataset.currentFee)
@@ -23,6 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function refreshUI(data) {
     // don't reload on checkout page to prevent filled in info from being reset.
-    if (window.location.includes('/cart')) window.location.reload();
+    if (window.location.toString().includes(cartPath)) window.location.reload();
   }
 });

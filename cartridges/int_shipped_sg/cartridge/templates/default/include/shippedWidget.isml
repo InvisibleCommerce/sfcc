@@ -11,7 +11,9 @@
       data-add-url="${URLUtils.url('ShippedSuite-Add').toString()}"
       data-remove-url="${URLUtils.url('ShippedSuite-Remove').toString()}"
       data-subtotal="${pdict.Basket.getAdjustedMerchandizeTotalPrice(false).value}"
-      data-current-fee="${shippedFee.value}">
+      data-current-fee="${shippedFee.value}"
+      data-cart-path="${URLUtils.url('Cart-Show').toString()}"
+  >
   </div>
 
   <script src="${URLUtils.staticURL('js/shippedWidgetSG.js')}"></script>
