@@ -31,16 +31,16 @@ function getCustomerPhone(profile) {
   }
 }
 
-function buildCustomerPayload(order, customer) {
+function buildCustomerPayload(order, orderCustomer) {
   var customerObj = {};
-  var profile = customer.getProfile();
+  var profile = orderCustomer.getProfile();
 
-  customerObj.external_id = customer.getID();
+  customerObj.external_id = orderCustomer.getID();
   customerObj.first_name = getFirstName(order, profile);
   customerObj.last_name = getLastName(order, profile);
   customerObj.email = empty(profile) ? order.getCustomerEmail() : profile.getEmail();
   customerObj.phone = getCustomerPhone(profile);
-  customerObj.notes = customer.getNote();
+  customerObj.notes = orderCustomer.getNote();
   customerObj.accepts_email_marketing = false;
   customerObj.accepts_sms_marketing = false;
 
