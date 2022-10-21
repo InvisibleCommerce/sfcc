@@ -10,19 +10,27 @@ var orders = require('~/cartridge/scripts/shipped/orders');
 exports.execute = function () {
   logger.info('Starting orders sync...');
 
-  var ordersQueue = CustomObjectMgr.getAllCustomObjects('shippedOrderQueue');
+  var ordersQueue;
 
-  while (ordersQueue.hasNext()) {
-    var queueOrder = ordersQueue.next();
-    var orderNo = queueOrder.custom.orderNo;
+  try {
+    ordersQueue = CustomObjectMgr.getAllCustomObjects('shippedOrderQueue');
 
-    var order = OrderMgr.getOrder(orderNo);
-    var response = orders.syncOrder(order);
+    while (ordersQueue.hasNext()) {
+      var queueOrder = ordersQueue.next();
+      var orderNo = queueOrder.custom.orderNo;
 
-    if (!response.error) {
-      Transaction.wrap(function () {
-        CustomObjectMgr.remove(queueOrder);
-      });
+      var order = OrderMgr.getOrder(orderNo);
+      var response = orders.syncOrder(order);
+
+      if (!response.error) {
+        Transaction.wrap(function () {
+          CustomObjectMgr.remove(queueOrder);
+        });
+      }
+    }
+  } finally {
+    if (ordersQueue) {
+      ordersQueue.close();
     }
   }
 
