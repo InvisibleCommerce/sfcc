@@ -1,13 +1,13 @@
 {
-  "name": "int_shipped_sfra",
-  "version": "0.0.1",
+  "name": "int_shipped",
+  "version": "22.1.0",
   "description": "New overlay cartridge",
   "main": "index.js",
   "scripts": {
     "lint": "sgmf-scripts --lint js && sgmf-scripts --lint css",
     "lint:fix": "sgmf-scripts --lint js --fix && sgmf-scripts --lint css --fix",
     "upload": "sgmf-scripts --upload -- ",
-    "uploadCartridge": "sgmf-scripts --uploadCartridge int_shipped && sgmf-scripts --uploadCartridge int_shipped_sfra && sgmf-scripts --uploadCartridge int_shipped_sg",
+    "uploadCartridge": "sgmf-scripts --uploadCartridge int_shipped && sgmf-scripts --uploadCartridge int_shipped_sfra && sgmf-scripts --uploadCartridge int_shipped_sg && sgmf-scripts --uploadCartridge int_shipped_sg_changes",
     "compile:js": "sgmf-scripts --compile js",
     "compile:scss": "sgmf-scripts --compile css"
   },
