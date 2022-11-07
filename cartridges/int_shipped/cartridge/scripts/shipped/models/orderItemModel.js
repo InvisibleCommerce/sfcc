@@ -1,7 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-
 function getTax(productLineItem) {
   if (empty(productLineItem.getAdjustedTax())) return 0;
 

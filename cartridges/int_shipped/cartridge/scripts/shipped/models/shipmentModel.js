@@ -1,7 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-
 function buildShipmentItemsPayload(shipment) {
   var shipmentItemsPayload = [];
   var productLineItems = shipment.getProductLineItems();

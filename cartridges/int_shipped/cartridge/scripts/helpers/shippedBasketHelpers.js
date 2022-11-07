@@ -5,7 +5,6 @@ var webService = require('~/cartridge/scripts/services/shippedRest');
 var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 var Site = require('dw/system/Site').getCurrent();
 var Money = require('dw/value/Money');
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 
 function calculateCurrentTotalShippedFee(currentBasket) {
   var shippedTotal = new Money(0, currentBasket.getCurrencyCode());
