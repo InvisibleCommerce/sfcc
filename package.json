@@ -7,7 +7,7 @@
     "lint": "sgmf-scripts --lint js && sgmf-scripts --lint css",
     "lint:fix": "sgmf-scripts --lint js --fix && sgmf-scripts --lint css --fix",
     "upload": "sgmf-scripts --upload -- ",
-    "uploadCartridge": "sgmf-scripts --uploadCartridge int_shipped && sgmf-scripts --uploadCartridge int_shipped_sfra && sgmf-scripts --uploadCartridge int_shipped_sg && sgmf-scripts --uploadCartridge int_shipped_sg_changes",
+    "uploadCartridge": "sgmf-scripts --uploadCartridge int_shipped && sgmf-scripts --uploadCartridge int_shipped_sfra && sgmf-scripts --uploadCartridge bm_shipped",
     "compile:js": "sgmf-scripts --compile js",
     "compile:scss": "sgmf-scripts --compile css"
   },
