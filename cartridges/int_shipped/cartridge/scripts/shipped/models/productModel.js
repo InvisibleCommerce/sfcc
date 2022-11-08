@@ -1,6 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var VariantModel = require('~/cartridge/scripts/shipped/models/variantModel');
 
 function buildImagesPayload(product) {

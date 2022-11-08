@@ -3,7 +3,6 @@
     <service-credential service-credential-id="int_shipped.http.Shipped.credentials">
         <url>https://api-staging.shippedsuite.com/</url>
         <user-id/>
-        <password encrypted="true" encryption-type="common.export"></password>
     </service-credential>
 
     <service-profile service-profile-id="int_shipped.http.Shipped.profile">

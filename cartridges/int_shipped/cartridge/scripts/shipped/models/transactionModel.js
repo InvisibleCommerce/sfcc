@@ -1,7 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-
 function getCategory(paymentTransaction) {
   var category = paymentTransaction.getType().getValue();
 
