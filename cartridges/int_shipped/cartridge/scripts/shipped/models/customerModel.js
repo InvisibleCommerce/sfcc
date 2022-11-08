@@ -1,7 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-
 function getFirstName(order, profile) {
   if (!empty(profile)) return profile.getFirstName();
 

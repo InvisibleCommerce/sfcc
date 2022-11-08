@@ -1,6 +1,5 @@
 'use strict';
 
-var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var OrderItemModel = require('~/cartridge/scripts/shipped/models/orderItemModel');
 var ShippingAddressModel = require('~/cartridge/scripts/shipped/models/shippingAddressModel');
 var CustomerModel = require('~/cartridge/scripts/shipped/models/customerModel');
