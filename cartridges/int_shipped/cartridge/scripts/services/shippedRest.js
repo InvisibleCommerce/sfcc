@@ -3,6 +3,12 @@
 var logger = require('dw/system/Logger').getLogger('ShippedAPI', 'Shipped');
 var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
 
+/**
+ * Creates configuration for specific type of request
+ * @param {String} action - The type of request
+ * @returns {Object} REST request configuration object
+ */
+
 function createRequestConfiguration(action) {
   var configObj = {};
   // default config
@@ -37,6 +43,12 @@ function createRequestConfiguration(action) {
   return configObj;
 }
 
+/**
+ * Creates service object for REST request
+ * @param {Object} configObj - Configuration object for the request
+ * @returns {dw.svc.Service} service object
+ */
+
 function createServiceCall(configObj) {
   return LocalServiceRegistry.createService('int_shipped.http.auth', {
     createRequest: function (service, requestData) {
@@ -66,6 +78,13 @@ function createServiceCall(configObj) {
     }
   });
 }
+
+/**
+ * Executes a REST request
+ * @param {String} action - The type of request
+ * @param {Object} body - Object containing the body of the request
+ * @returns {Object} contents returned by the REST service
+ */
 
 function makeServiceRequest(action, body) {
   var configObj = createRequestConfiguration(action);

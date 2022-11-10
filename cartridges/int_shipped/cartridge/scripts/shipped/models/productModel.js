@@ -2,6 +2,12 @@
 
 var VariantModel = require('~/cartridge/scripts/shipped/models/variantModel');
 
+/**
+ * Builds array of image payloads for Shipped Suite API
+ * @param {dw.catalog.Product} product - Product
+ * @returns {Array} image payloads in Shipped Suite API format
+ */
+
 function buildImagesPayload(product) {
   var imagesPayload = [];
   var imageViewType = 'medium';
@@ -17,6 +23,12 @@ function buildImagesPayload(product) {
 
   return imagesPayload;
 }
+
+/**
+ * Builds array of variant payloads for Shipped Suite API
+ * @param {dw.catalog.Product} product - Product
+ * @returns {Array} variant payloads in Shipped Suite API format
+ */
 
 function buildVariantsPayload(product) {
   var variants = [];
@@ -35,6 +47,12 @@ function buildVariantsPayload(product) {
 
   return variantsPayload;
 }
+
+/**
+ * Builds product payload for Shipped Suite API
+ * @param {dw.catalog.Product} product - Product
+ * @returns {Object} object containing product payload in Shipped Suite API format
+ */
 
 function buildProductPayload(product) {
   var category = !empty(product.getPrimaryCategory()) ? product.getPrimaryCategory().getDisplayName() : '';

@@ -4,6 +4,12 @@ var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var webService = require('~/cartridge/scripts/services/shippedRest');
 var ProductModel = require('~/cartridge/scripts/shipped/models/productModel');
 
+/**
+ * Synchronizes the product only if it's the parent-most product
+ * @param {dw.catalog.product} product - Product
+ * @returns {Object} API response body
+ */
+
 function syncMasterProduct(product) {
   if (product.isVariant()) return;
   if (product.isBundle()) return;
@@ -16,6 +22,12 @@ function syncMasterProduct(product) {
   var response = webService.makeServiceRequest('upsertProduct', productObject);
   return response;
 }
+
+/**
+ * Synchronizes the parent-most product
+ * @param {dw.catalog.product} product - Product
+ * @returns {Object} API response body
+ */
 
 function syncProduct(product) {
   var masterProduct = product;

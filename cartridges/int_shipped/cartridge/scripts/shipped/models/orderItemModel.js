@@ -1,10 +1,22 @@
 'use strict';
 
+/**
+ * Gets tax amount for product line item
+ * @param {dw.order.ProductLineItem} productLineItem - Product line item
+ * @returns {String} decimal value of tax amount
+ */
+
 function getTax(productLineItem) {
   if (empty(productLineItem.getAdjustedTax())) return 0;
 
   return productLineItem.getAdjustedTax().getDecimalValue().toString();
 }
+
+/**
+ * Gets total price for product line item
+ * @param {dw.order.ProductLineItem} productLineItem - Product line item
+ * @returns {Number} decimal value of total price
+ */
 
 function getTotalPrice(productLineItem) {
   var options = productLineItem.getOptionProductLineItems();
@@ -20,11 +32,23 @@ function getTotalPrice(productLineItem) {
   return productPrice + optionsPrice;
 }
 
+/**
+ * Gets unit price for product line item
+ * @param {dw.order.ProductLineItem} productLineItem - Product line item
+ * @returns {Number} decimal value of unit price
+ */
+
 function getUnitPrice(productLineItem) {
   var netPrice = getTotalPrice(productLineItem);
 
   return netPrice / productLineItem.getQuantityValue();
 }
+
+/**
+ * Gets ultimate parent product ID for product
+ * @param {dw.catalog.Product} product - Product
+ * @returns {String} product ID
+ */
 
 function getProductID(product) {
   if (product.isVariant()) {
@@ -34,9 +58,21 @@ function getProductID(product) {
   return product.getID();
 }
 
+/**
+ * Gets ID for product
+ * @param {dw.catalog.Product} product - Product
+ * @returns {String} product ID
+ */
+
 function getVariantID(product) {
   return product.getID();
 }
+
+/**
+ * Builds order item payload for Shipped Suite API
+ * @param {dw.order.ProductLineItem} productLineItem - Product line item
+ * @returns {Object} object containing order item payload in Shipped Suite API format
+ */
 
 function buildOrderItemPayload(productLineItem) {
   var orderItemObj = {};
