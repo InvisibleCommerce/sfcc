@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Builds shipping address payload for Shipped Suite API
+ * @param {dw.order.OrderAddress} shippingAddress - Shipping address
+ * @returns {Object} object containing shipping address payload in Shipped Suite API format
+ */
+
 function buildShippingAddressPayload(shippingAddress) {
   var shippingAddressObj = {};
 

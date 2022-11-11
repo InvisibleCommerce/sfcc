@@ -6,6 +6,13 @@ var OrderModel = require('*/cartridge/models/order');
 var Locale = require('dw/util/Locale');
 var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 
+/**
+ * Builds the checkout response JSON for new/updated basket
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ * @param {dw.system.Request} req - Request
+ * @param {dw.system.Response} res - Response
+ */
+
 function buildCheckoutResponse(currentBasket, req, res) {
   var currentCustomer = req.currentCustomer.raw;
   var usingMultiShipping = req.session.privacyCache.get('usingMultiShipping');
@@ -29,6 +36,10 @@ function buildCheckoutResponse(currentBasket, req, res) {
   res.json({ order: orderModel, customer: accountModel });
 }
 
+/**
+ * Handle adding Shipped service to cart
+ */
+
 server.post('Add', function (req, res, next) {
   // let's add a variable to session indicating user opted in
   req.session.privacyCache.set('shippedSuite', true);
@@ -40,6 +51,10 @@ server.post('Add', function (req, res, next) {
 
   next();
 });
+
+/**
+ * Handle removing Shipped service from cart
+ */
 
 server.post('Remove', function (req, res, next) {
   // let's add a variable to session indicating user opted out

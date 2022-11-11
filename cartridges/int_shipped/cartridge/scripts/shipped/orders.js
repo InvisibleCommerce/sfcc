@@ -5,6 +5,12 @@ var webService = require('~/cartridge/scripts/services/shippedRest');
 var OrderModel = require('~/cartridge/scripts/shipped/models/orderModel');
 var products = require('~/cartridge/scripts/shipped/products');
 
+/**
+ * Synchronizes order from SFCC to Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Object} API response body
+ */
+
 function syncOrder(order) {
   var orderObject = OrderModel.buildOrderPayload(order);
   logger.info('syncing order {0}', orderObject.external_id);
@@ -17,6 +23,11 @@ function syncOrder(order) {
   logger.info('response: {0}', response);
   return response;
 }
+
+/**
+ * Synchronizes an order's products from SFCC to Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ */
 
 function syncProducts(order) {
   order.getAllProductLineItems().toArray().forEach(function (productLineItem) {

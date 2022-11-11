@@ -7,6 +7,12 @@ var TransactionModel = require('~/cartridge/scripts/shipped/models/transactionMo
 var ShippingAdjustmentModel = require('~/cartridge/scripts/shipped/models/shippingAdjustmentModel');
 var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 
+/**
+ * Builds array of transaction payloads for Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Array} transaction payloads in Shipped Suite API format
+ */
+
 function buildTransactionsPayload(order) {
   var paymentInstruments = order.getPaymentInstruments();
 
@@ -20,6 +26,12 @@ function buildTransactionsPayload(order) {
   return transactionsPayload;
 }
 
+/**
+ * Maps fulfillment status to Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {String} Shipped Suite API fulfillment status
+ */
+
 function getFulfillmentStatus(order) {
   switch (order.getShippingStatus().getValue()) {
     case 0: // not shipped
@@ -30,6 +42,12 @@ function getFulfillmentStatus(order) {
       return 'fulfilled';
   }
 }
+
+/**
+ * Maps payment status to Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {String} Shipped Suite API payment status
+ */
 
 function getPaymentStatus(order) {
   switch (order.getPaymentStatus().getValue()) {
@@ -42,11 +60,23 @@ function getPaymentStatus(order) {
   }
 }
 
+/**
+ * Builds shipping adjustment payload for Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Object} shipping adjustment payload in Shipped Suite API format
+ */
+
 function buildShippingAdjustmentsPayload(order) {
   var shippingAdjustmentObj = ShippingAdjustmentModel.buildShippingAdjustmentPayload(order);
 
   return shippingAdjustmentObj;
 }
+
+/**
+ * Builds array of order item payloads for Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Array} order item payloads in Shipped Suite API format
+ */
 
 function buildOrderItemsPayload(order) {
   var orderItems = order.getAllProductLineItems();
@@ -64,6 +94,12 @@ function buildOrderItemsPayload(order) {
   return orderItemsPayload;
 }
 
+/**
+ * Determines whether Shipped Shield is applicable on order
+ * @param {dw.order.Order} order - Order
+ * @returns {Boolean}
+ */
+
 function getShieldSelection(order) {
   // this checks for order-level price adjustment method
   var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_SHIELD_ID);
@@ -72,6 +108,12 @@ function getShieldSelection(order) {
   return false;
 }
 
+/**
+ * Determines whether Shipped Green is applicable on order
+ * @param {dw.order.Order} order - Order
+ * @returns {Boolean}
+ */
+
 function getGreenSelection(order) {
   // this checks for order-level price adjustment method
   var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_GREEN_ID);
@@ -79,6 +121,12 @@ function getGreenSelection(order) {
 
   return false;
 }
+
+/**
+ * Builds order payload for Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Object} object containing order payload in Shipped Suite API format
+ */
 
 function buildOrderPayload(order) {
   var orderObj = {};

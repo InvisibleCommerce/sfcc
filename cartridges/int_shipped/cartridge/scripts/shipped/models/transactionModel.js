@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Maps to Shipped Suite API transaction category
+ * @param {dw.order.PaymentTransaction} paymentTransaction - Payment transaction
+ * @returns {String} Shipped Suite API transaction category
+ */
+
 function getCategory(paymentTransaction) {
   var category = paymentTransaction.getType().getValue();
 
@@ -7,6 +13,12 @@ function getCategory(paymentTransaction) {
 
   return category;
 }
+
+/**
+ * Builds transaction payload for Shipped Suite API
+ * @param {dw.order.OrderPaymentInstrument} paymentInstrument - Payment instrument
+ * @returns {Object} object containing transaction payload in Shipped Suite API format
+ */
 
 function buildTransactionPayload(paymentInstrument) {
   var transactionObj = {};

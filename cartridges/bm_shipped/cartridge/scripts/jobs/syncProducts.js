@@ -5,6 +5,11 @@ var Status = require('dw/system/Status');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
 var products = require('~/cartridge/scripts/shipped/products');
 
+/**
+ * @function execute
+ * @returns {dw.system.Status} - status
+ */
+
 exports.execute = function () {
   var productsIterator = ProductMgr.queryAllSiteProducts();
 

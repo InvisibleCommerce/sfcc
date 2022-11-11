@@ -6,6 +6,12 @@ var shippedConstants = require('~/cartridge/scripts/shipped/constants');
 var Site = require('dw/system/Site').getCurrent();
 var Money = require('dw/value/Money');
 
+/**
+ * Calculates total amount of Shipped fees on the current basket
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ * @returns {dw.value.Money} object containing the total Shipped fees
+ */
+
 function calculateCurrentTotalShippedFee(currentBasket) {
   var shippedTotal = new Money(0, currentBasket.getCurrencyCode());
   shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
@@ -18,11 +24,23 @@ function calculateCurrentTotalShippedFee(currentBasket) {
   return shippedTotal;
 }
 
+/**
+ * Calculates total order value of basket as applicable to Shipped
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ * @returns {Number} total order value of basket as applicable to Shipped
+ */
+
 function calculateTotalPrice(currentBasket) {
   var basketTotal = currentBasket.merchandizeTotalNetPrice.value;
 
   return basketTotal;
 }
+
+/**
+ * Calculates Shipped fees applicable to a basket
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ * @returns {Object} with fees for each Shipped product
+ */
 
 function calculateShippedFees(currentBasket) {
   var totalPrice = calculateTotalPrice(currentBasket);
@@ -43,6 +61,11 @@ function calculateShippedFees(currentBasket) {
   return fees;
 }
 
+/**
+ * Removes existing Shipped PriceAdjustments from basket
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ */
+
 function removeShippedOrderPriceAdjustments(currentBasket) {
   shippedConstants.SHIPPED_IDS.forEach(function (shippedId) {
     var existingPriceAdjustment = currentBasket.getPriceAdjustmentByPromotionID(shippedId);
@@ -53,6 +76,11 @@ function removeShippedOrderPriceAdjustments(currentBasket) {
     });
   });
 }
+
+/**
+ * Adds Shipped PriceAdjustments to basket
+ * @param {dw.order.Basket} currentBasket - Current user's basket
+ */
 
 function addShippedOrderPriceAdjustment(currentBasket) {
   var orderPriceAdjustment;
@@ -69,6 +97,12 @@ function addShippedOrderPriceAdjustment(currentBasket) {
     });
   });
 }
+
+/**
+ * Ensures consistency/correctness of Shipped PriceAdjustments on the basket
+ * @param {dw.order.LineItemCtnr} lineItemsContainer - Current user's basket
+ * @param {Boolean} shippedSelected - Whether or not Shipped has been selected
+ */
 
 function ensureCorrectShippedLineItems(lineItemsContainer, shippedSelected) {
   // remove any existing items first

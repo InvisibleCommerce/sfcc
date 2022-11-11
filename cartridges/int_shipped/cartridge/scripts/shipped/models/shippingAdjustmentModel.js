@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Builds shipping adjustment payload for Shipped Suite API
+ * @param {dw.order.Order} order - Order
+ * @returns {Object} object containing shipping adjustment payload in Shipped Suite API format
+ */
+
 function buildShippingAdjustmentPayload(order) {
   var adjustmentObj = {};
 

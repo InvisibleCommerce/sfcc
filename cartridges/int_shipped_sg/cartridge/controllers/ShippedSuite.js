@@ -6,6 +6,10 @@ var shippedBasketHelpers = require('int_shipped/cartridge/scripts/helpers/shippe
 var BasketMgr = require('dw/order/BasketMgr');
 var Response = require('*/cartridge/scripts/util/Response');
 
+/**
+ * Handle adding Shipped service to cart
+ */
+
 function add() {
   // let's add a variable to session indicating user opted in
   session.getPrivacy().shippedSuite = true;
@@ -17,6 +21,10 @@ function add() {
     success: true
   });
 }
+
+/**
+ * Handle removing Shipped service from cart
+ */
 
 function remove() {
   // let's add a variable to session indicating user opted out
