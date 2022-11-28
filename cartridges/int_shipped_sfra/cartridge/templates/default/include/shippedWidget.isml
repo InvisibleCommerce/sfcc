@@ -18,5 +18,6 @@
       data-add-url="${URLUtils.url('ShippedSuite-Add').toString()}"
       data-remove-url="${URLUtils.url('ShippedSuite-Remove').toString()}"
       data-subtotal="${shippedSubtotal}"
+      data-currency="${session.getCurrency().getCurrencyCode()}"
   ></div>
 </isif>

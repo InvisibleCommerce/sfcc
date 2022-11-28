@@ -44,7 +44,9 @@ function calculateTotalPrice(currentBasket) {
 
 function calculateShippedFees(currentBasket) {
   var totalPrice = calculateTotalPrice(currentBasket);
-  var response = webService.makeServiceRequest('getOffers', { order_value: totalPrice });
+  var response = webService.makeServiceRequest('getOffers', {
+    order_value: totalPrice, currency: currentBasket.getCurrencyCode()
+  });
 
   var fees = {};
   if (Site.getCustomPreferenceValue('shippedShield')) {

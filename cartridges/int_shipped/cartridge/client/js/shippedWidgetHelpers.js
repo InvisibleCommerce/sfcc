@@ -76,7 +76,8 @@ function initializeWidget(shouldRefreshUI, refreshUI) {
   const shippedWidget = new Shipped.Widget(shippedConfig);
 
   var widget = document.getElementsByClassName('shipped-widget')[0];
-  shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal));
+  var currency = widget.dataset.currency;
+  shippedWidget.updateOrderValue(subtotalValue(widget.dataset.subtotal), currency);
   shippedWidget.onChange(details => handleShippedChange(widget, details, shouldRefreshUI, refreshUI));
 
   return shippedWidget
