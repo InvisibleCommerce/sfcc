@@ -31,7 +31,7 @@ function calculateCurrentTotalShippedFee(currentBasket) {
  */
 
 function calculateTotalPrice(currentBasket) {
-  var basketTotal = currentBasket.merchandizeTotalNetPrice.value;
+  var basketTotal = currentBasket.getAdjustedMerchandizeTotalPrice().getValue();
 
   return basketTotal;
 }
