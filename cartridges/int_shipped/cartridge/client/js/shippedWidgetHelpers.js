@@ -11,7 +11,7 @@ var existingDetails;
 function subtotalValue(subtotal) {
   if (subtotal === null || subtotal === undefined) return 0;
 
-  return parseFloat(subtotal.replace('$', '').replace(',', ''));
+  return Number(subtotal.replace(/[^0-9.-]+/g,""));
 }
 
 /**
