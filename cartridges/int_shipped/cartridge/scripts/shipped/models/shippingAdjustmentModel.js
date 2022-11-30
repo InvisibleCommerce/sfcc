@@ -13,8 +13,11 @@ function buildShippingAdjustmentPayload(order) {
   adjustmentObj.category = 'shipping';
   adjustmentObj.description = 'Shipping';
   adjustmentObj.amount = order.getAdjustedShippingTotalNetPrice().getValue();
+  adjustmentObj.display_amount = order.getAdjustedShippingTotalNetPrice().getValue();
   adjustmentObj.discount = 0;
+  adjustmentObj.display_discount = 0;
   adjustmentObj.tax = order.getAdjustedShippingTotalTax().getValue();
+  adjustmentObj.display_tax = order.getAdjustedShippingTotalTax().getValue();
 
   return adjustmentObj;
 }
