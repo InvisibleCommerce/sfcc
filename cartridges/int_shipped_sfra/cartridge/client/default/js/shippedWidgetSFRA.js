@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (totals === undefined) return;
 
     if (existingSubtotal !== totals.subTotal) {
-      shippedWidget.updateOrderValue(shippedWidgetHelpers.subtotalValue(totals.subTotal));
+      shippedWidget.updateOrderValue(shippedWidgetHelpers.subtotalValue(totals.subTotal), widget.dataset.currency);
     }
 
     existingSubtotal = totals.subTotal;

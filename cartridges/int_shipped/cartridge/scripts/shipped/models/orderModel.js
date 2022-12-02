@@ -109,6 +109,20 @@ function getShieldSelection(order) {
 }
 
 /**
+ * Determines the amount that the customer was charged for Shield
+ * @param {dw.order.Order} order - Order
+ * @returns {Number}
+ */
+
+function getShieldAmount(order) {
+  // this checks for order-level price adjustment method
+  var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_SHIELD_ID);
+  if (empty(priceAdjustment)) return 0;
+
+  return priceAdjustment.getPrice().getValue();
+}
+
+/**
  * Determines whether Shipped Green is applicable on order
  * @param {dw.order.Order} order - Order
  * @returns {Boolean}
@@ -120,6 +134,20 @@ function getGreenSelection(order) {
   if (!empty(priceAdjustment)) return true;
 
   return false;
+}
+
+/**
+ * Determines the amount that the customer was charged for Green
+ * @param {dw.order.Order} order - Order
+ * @returns {Number}
+ */
+
+function getGreenAmount(order) {
+  // this checks for order-level price adjustment method
+  var priceAdjustment = order.getPriceAdjustmentByPromotionID(shippedConstants.SHIPPED_GREEN_ID);
+  if (empty(priceAdjustment)) return 0;
+
+  return priceAdjustment.getPrice().getValue();
 }
 
 /**
@@ -146,7 +174,11 @@ function buildOrderPayload(order) {
   orderObj.order_adjustments.push(buildShippingAdjustmentsPayload(order));
   orderObj.transactions = buildTransactionsPayload(order);
   orderObj.shield_selected = getShieldSelection(order);
+  orderObj.shield_display_fee = getShieldAmount(order);
   orderObj.green_selected = getGreenSelection(order);
+  orderObj.green_display_fee = getGreenAmount(order);
+  orderObj.display_currency = order.getCurrencyCode();
+  orderObj.transaction_currency = order.getCurrencyCode();
 
   return orderObj;
 }

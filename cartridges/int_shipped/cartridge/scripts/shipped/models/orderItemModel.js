@@ -85,8 +85,11 @@ function buildOrderItemPayload(productLineItem) {
   orderItemObj.description = productLineItem.getLineItemText();
   orderItemObj.quantity = productLineItem.getQuantityValue();
   orderItemObj.unit_price = getUnitPrice(productLineItem);
+  orderItemObj.display_unit_price = getUnitPrice(productLineItem);
   orderItemObj.discount = 0;
+  orderItemObj.display_discount = 0;
   orderItemObj.tax = getTax(productLineItem);
+  orderItemObj.display_tax = getTax(productLineItem);
   orderItemObj.product_type = 'regular';
 
   return orderItemObj;

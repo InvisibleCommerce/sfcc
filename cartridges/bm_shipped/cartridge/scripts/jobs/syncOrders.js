@@ -5,7 +5,7 @@ var CustomObjectMgr = require('dw/object/CustomObjectMgr');
 var Transaction = require('dw/system/Transaction');
 var Status = require('dw/system/Status');
 var logger = require('dw/system/Logger').getLogger('Shipped', 'Shipped');
-var orders = require('~/cartridge/scripts/shipped/orders');
+var orders = require('*/cartridge/scripts/shipped/orders');
 
 /**
  * @function execute
