@@ -151,6 +151,19 @@ function getGreenAmount(order) {
 }
 
 /**
+ * Determines whether or not taxes are being included in the price
+ * @param {dw.order.Order} order - Order
+ * @returns {Boolean}
+ */
+
+function areTaxesIncluded(order) {
+  var price = order.getAdjustedMerchandizeTotalPrice().getValue();
+  var netPrice = order.getAdjustedMerchandizeTotalNetPrice().getValue();
+
+  return price > netPrice;
+}
+
+/**
  * Builds order payload for Shipped Suite API
  * @param {dw.order.Order} order - Order
  * @returns {Object} object containing order payload in Shipped Suite API format
@@ -179,6 +192,7 @@ function buildOrderPayload(order) {
   orderObj.green_display_fee = getGreenAmount(order);
   orderObj.display_currency = order.getCurrencyCode();
   orderObj.transaction_currency = order.getCurrencyCode();
+  orderObj.taxes_included = areTaxesIncluded(order);
 
   return orderObj;
 }
