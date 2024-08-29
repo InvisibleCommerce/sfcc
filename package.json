@@ -22,7 +22,7 @@
     "node-sass": "^7.0.3",
     "postcss-loader": "^7.0.1",
     "proxyquire": "1.7.4",
-    "sass-loader": "^7.0.3",
+    "sass-loader": "^16.0.1",
     "sgmf-scripts": "^3.0.0",
     "sinon": "^1.17.4",
     "stylelint": "^15.10.1",
