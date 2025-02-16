@@ -18,7 +18,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "istanbul": "^0.4.4",
-    "mocha": "^10.3.0",
+    "mocha": "^10.8.2",
     "node-sass": "^7.0.3",
     "postcss-loader": "^7.0.1",
     "proxyquire": "1.7.4",
